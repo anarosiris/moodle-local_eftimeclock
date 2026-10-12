@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family:'Poppins'; src:url('fonts/Poppins-Regular.ttf'); font-weight:400; }
+  @font-face { font-family:'Poppins'; src:url('fonts/Poppins-Medium.ttf'); font-weight:500; }
+  @font-face { font-family:'Poppins'; src:url('fonts/Poppins-SemiBold.ttf'); font-weight:600; }
+  @font-face { font-family:'Poppins'; src:url('fonts/Poppins-Bold.ttf'); font-weight:700; }
+  @font-face { font-family:'Lato'; src:url('fonts/Lato-Regular.ttf'); font-weight:400; }
+  @font-face { font-family:'Lato'; src:url('fonts/Lato-Bold.ttf'); font-weight:700; }
+
+  :root{
+    --teal:#009b9b; --teal-d:#00787a; --teal-l:#e6f5f5; --teal-l2:#d2ecec;
+    --orange:#F39200; --orange-l:#fff3e0; --orange-d:#c9760a;
+    --ink:#2d3a3a; --muted:#6c7a7a; --line:#dfeaea;
+  }
+  @page{
+    size:A4; margin:18mm 16mm 16mm 16mm;
+    @bottom-center{ content:"eLearning Fácil  ·  elearningfacil.com"; font-family:'Lato'; font-size:8pt; color:#9fb0b0; }
+    @bottom-right{ content:counter(page); font-family:'Poppins'; font-weight:600; font-size:9pt; color:var(--teal); }
+  }
+  @page cover{ margin:0; @bottom-center{content:""} @bottom-right{content:""} }
+  @page :first{ margin:0; }
+  a{ color:var(--teal-d); text-decoration:none; }
+
+  *{box-sizing:border-box;}
+  body{ font-family:'Lato'; color:var(--ink); font-size:10.5pt; line-height:1.5; margin:0; }
+  h1,h2,h3,h4{ font-family:'Poppins'; color:var(--teal-d); margin:0 0 .3em; line-height:1.2; }
+  p{ margin:0 0 .6em; }
+  b,strong{ font-weight:700; }
+  code{ font-family:'Lato'; background:var(--teal-l); color:var(--teal-d); padding:1px 5px; border-radius:4px; font-size:9.5pt; font-weight:700; }
+
+  /* Portada clara (sistema de marca): fondo blanco, círculo crema, logo sin caja y enlazado */
+  .cover{ page:cover; height:297mm; background:#fff; color:var(--ink); position:relative; overflow:hidden; }
+  .cover .blob{ position:absolute; border-radius:50%; }
+  .cover .b1{ width:170mm; height:170mm; right:-60mm; top:-70mm; background:#fff3d2; }
+  .cover .b2{ width:110mm; height:110mm; left:-45mm; bottom:-40mm; background:var(--teal-l); }
+  .cover-inner{ position:absolute; inset:0; padding:22mm 22mm 20mm; display:flex; flex-direction:column; }
+  .cover .logo{ width:72mm; display:block; }
+  .cover .eyebrow{ margin-top:46mm; font-family:'Poppins'; font-weight:700; font-size:10pt; letter-spacing:2.5px; color:#a85400; text-transform:uppercase; }
+  .cover h1{ color:#1a1a1a; font-size:40pt; font-weight:700; margin:3mm 0 0; line-height:1.05; }
+  .cover .sub{ font-family:'Poppins'; font-weight:600; font-size:15pt; color:#1a1a1a; margin-top:5mm; }
+  .cover .sub u{ text-decoration:none; background:#fec93f; padding:0 2mm; border-radius:4px; }
+  .cover .tag{ display:inline-block; background:var(--orange); color:#1a1a1a; font-family:'Poppins'; font-weight:700;
+    font-size:10pt; padding:4px 14px; border-radius:30px; margin-top:8mm; align-self:flex-start; }
+  .cover .ver{ margin-top:4mm; font-family:'Poppins'; font-weight:500; font-size:10pt; color:var(--muted); }
+  .by{ margin-top:auto; background:#fff3d2; border-radius:14px; padding:7mm 8mm; display:flex; gap:7mm; align-items:center; }
+  .by img{ width:22mm; height:22mm; border-radius:6mm; }
+  .by .k{ font-family:'Poppins'; font-weight:700; font-size:9pt; letter-spacing:1.5px; color:#a85400; text-transform:uppercase; }
+  .by p{ margin:1mm 0 0; font-size:10.5pt; }
+  .by a{ font-family:'Poppins'; font-weight:700; color:var(--teal-d); }
+  /* índice: cada fila es un enlace y el número de página sale solo */
+  .toc a.row{ color:inherit; }
+  .toc a.row::after{ content:target-counter(attr(href url), page); margin-left:auto; font-family:'Poppins'; font-weight:600; color:var(--teal); }
+  /* promo final */
+  .promo{ display:flex; flex-wrap:wrap; gap:5mm; margin-top:4mm; }
+  .promo a{ width:calc(50% - 2.5mm); display:flex; gap:4mm; align-items:flex-start; background:#f6fbfb; border:1px solid var(--line); border-radius:10px; padding:4.5mm; color:var(--ink); break-inside:avoid; }
+  .promo img{ width:16mm; height:16mm; flex:none; }
+  .promo b{ display:block; font-family:'Poppins'; color:var(--teal-d); font-size:11pt; margin-bottom:1mm; }
+  .promo span{ font-size:9.5pt; line-height:1.4; }
+  .cta{ margin-top:7mm; background:#fff3d2; border-radius:12px; padding:6mm 7mm; text-align:center; }
+  .cta a{ display:inline-block; margin-top:3mm; background:var(--orange); color:#1a1a1a; font-family:'Poppins'; font-weight:700; border-radius:30px; padding:3mm 8mm; }
+  .part{ page-break-before:always; }
+  .partbar{ background:linear-gradient(90deg,var(--teal),var(--teal-d)); color:#fff; border-radius:12px;
+    padding:7mm 9mm; margin-bottom:7mm; }
+  .partbar .k{ font-family:'Poppins'; font-weight:600; font-size:10pt; letter-spacing:2px; color:#bff0f0; text-transform:uppercase; }
+  .partbar h1{ color:#fff; font-size:23pt; margin:2mm 0 0; }
+  .partbar p{ margin:2mm 0 0; color:#d6f5f5; font-size:10.5pt; }
+
+  h2{ font-size:15.5pt; margin-top:8mm; padding-bottom:2mm; border-bottom:2px solid var(--teal-l2); }
+  .num{ display:inline-block; min-width:8mm; height:8mm; line-height:8mm; text-align:center; background:var(--orange);
+    color:#fff; border-radius:50%; font-family:'Poppins'; font-weight:700; font-size:11pt; margin-right:3mm; }
+  h3{ font-size:12.5pt; color:var(--teal); margin-top:5mm; }
+
+  .box{ border-radius:10px; padding:5mm 6mm; margin:4mm 0; break-inside:avoid; font-size:10pt; }
+  .box .h{ font-family:'Poppins'; font-weight:600; font-size:9.5pt; letter-spacing:.5px; text-transform:uppercase; margin-bottom:1.5mm; }
+  .tip{ background:var(--orange-l); border-left:5px solid var(--orange); }
+  .tip .h{ color:var(--orange-d); }
+  .ok{ background:var(--teal-l); border-left:5px solid var(--teal); }
+  .ok .h{ color:var(--teal-d); }
+
+  ol.steps{ counter-reset:s; list-style:none; padding:0; margin:3mm 0; }
+  ol.steps>li{ position:relative; padding:0 0 4mm 12mm; break-inside:avoid; }
+  ol.steps>li:before{ counter-increment:s; content:counter(s); position:absolute; left:0; top:-1mm;
+    width:8mm; height:8mm; line-height:8mm; text-align:center; background:var(--teal); color:#fff;
+    border-radius:50%; font-family:'Poppins'; font-weight:700; font-size:10pt; }
+
+  ul.tick{ list-style:none; padding-left:0; margin:2mm 0; }
+  ul.tick li{ padding-left:7mm; position:relative; margin-bottom:2mm; }
+  ul.tick li:before{ content:""; position:absolute; left:0; top:2mm; width:3.2mm; height:3.2mm; background:var(--orange); border-radius:50%; }
+
+  table{ width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt; break-inside:avoid; }
+  th{ background:var(--teal); color:#fff; font-family:'Poppins'; font-weight:600; text-align:left; padding:3mm 3mm; }
+  td{ border-bottom:1px solid var(--line); padding:2.6mm 3mm; vertical-align:top; }
+  tr:nth-child(even) td{ background:#f6fbfb; }
+
+  .toc{ margin-top:4mm; }
+  .toc .row{ display:flex; align-items:baseline; border-bottom:1px dotted var(--line); padding:2.4mm 0; }
+  .toc .row .tt{ font-family:'Poppins'; font-weight:500; color:var(--ink); }
+  .toc .row .pg{ margin-left:auto; font-family:'Poppins'; font-weight:600; color:var(--teal); }
+  .toc .grp{ font-family:'Poppins'; font-weight:700; color:var(--orange-d); margin:6mm 0 1mm; font-size:11pt; letter-spacing:.5px; }
+
+  .lead{ font-size:11.5pt; color:var(--muted); }
+  .grid2{ display:flex; gap:6mm; }
+  .grid2>div{ flex:1; }
+  .card{ background:#f6fbfb; border:1px solid var(--line); border-radius:10px; padding:5mm; break-inside:avoid; }
+  .card h4{ font-size:11pt; color:var(--teal); margin-bottom:2mm; }
+  hr.s{ border:none; border-top:1px solid var(--line); margin:6mm 0; }
+  .small{ font-size:9pt; color:var(--muted); }
+  .shot{ display:block; width:100%; max-width:150mm; border:1px solid var(--line); border-radius:8px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08); margin:4mm auto; break-inside:avoid; }
+  .shot.movil{ max-width:52mm; }
+  .shotcap{ text-align:center; font-size:8.5pt; color:var(--muted); margin:-2mm 0 4mm; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="cover-inner">
+    <a href="https://elearningfacil.com"><img class="logo" src="logo_horizontal.png" alt="eLearning Fácil"></a>
+    <div class="eyebrow">Plugin gratuito para Moodle™</div>
+    <h1>Medidor de tiempo real</h1>
+    <div class="sub">Moodle™ registra clics. <u>Esto mide tiempo.</u></div>
+    <div class="tag">Guía del plugin · local_eftimeclock</div>
+    <div class="ver">Versión 0.3.1 · Compatible con Moodle™ 5.1, 5.2 y 5.3</div>
+    <div class="by">
+      <img src="active-time-clock_512.png" alt="">
+      <div><div class="k">Desarrollado y mantenido por eLearning Fácil</div>
+        <p>Una empresa independiente que crea plugins para Moodle™ para centros de formación y empresas:
+        seguimiento del tiempo, informes, certificados y gestión de alumnos.</p>
+        <p><a href="https://elearningfacil.com">elearningfacil.com</a> · info@elearningfacil.com</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- INDICE -->
+<section class="part">
+  <div class="partbar"><div class="k">Contenido</div><h1>Índice</h1></div>
+  <div class="toc">
+    <div class="grp">Guía</div>
+    <a class="row" href="#s1"><span class="tt">1. ¿Qué es y para qué sirve?</span></a>
+    <a class="row" href="#s2"><span class="tt">2. Instalación</span></a>
+    <a class="row" href="#s3"><span class="tt">3. Cómo mide el tiempo</span></a>
+    <a class="row" href="#s4"><span class="tt">4. El reloj que ve el estudiante</span></a>
+    <a class="row" href="#s5"><span class="tt">5. El informe del curso</span></a>
+    <a class="row" href="#s6"><span class="tt">6. Ajustes del curso y del sitio</span></a>
+    <div class="grp">Referencia</div>
+    <a class="row" href="#s7"><span class="tt">7. Permisos y datos</span></a>
+    <a class="row" href="#s8"><span class="tt">8. Qué no hace</span></a>
+    <a class="row" href="#s9"><span class="tt">9. Pasar al Pack Formación Bonificada Pro sin perder datos</span></a>
+    <a class="row" href="#s10"><span class="tt">10. Preguntas frecuentes</span></a>
+    <a class="row" href="#s11"><span class="tt">Otros plugins de eLearning Fácil</span></a>
+  </div>
+</section>
+
+<!-- 1-2 -->
+<section class="part">
+  <div class="partbar"><div class="k">Guía</div><h1>El medidor de tiempo</h1>
+    <p>Cuánto tiempo dedica de verdad cada estudiante a las actividades de tu curso, gratis.</p></div>
+
+  <h2 id="s1"><span class="num">1</span>¿Qué es y para qué sirve?</h2>
+  <p class="lead">Moodle™ guarda cada clic, pero no sabe cuánto tiempo pasa el estudiante delante de la actividad.
+  El <b>Medidor de tiempo real</b> lo mide: cuenta el tiempo activo de cada estudiante en las actividades del
+  curso y se lo enseña en un reloj flotante.</p>
+  <ul class="tick">
+    <li><b>Solo cuenta el tiempo de verdad</b>: con la pestaña de la actividad visible y con el foco. Una
+      pestaña de fondo o irse a otra aplicación lo pausa.</li>
+    <li><b>Datos en los que puedes confiar</b>: el servidor no se fía del navegador y nunca suma más tiempo
+      del que ha pasado de verdad.</li>
+    <li><b>Reloj flotante</b> en las actividades, con dos temas (Zafiro y Pizarra) y un aviso de
+      transparencia para el estudiante.</li>
+    <li><b>Informe sencillo por curso</b> con descargas en Excel y CSV, respetando los grupos separados.</li>
+    <li><b>Ajustes por curso</b> y valores por defecto para todo el sitio.</li>
+  </ul>
+
+  <h2 id="s2"><span class="num">2</span>Instalación</h2>
+  <ol class="steps">
+    <li><b>Haz una copia de seguridad antes de instalar</b>: base de datos, carpeta moodledata y código. Es lo
+      recomendable con cualquier plugin.</li>
+    <li><b>Administración del sitio → Extensiones → Instalar complementos</b>: sube el ZIP y confirma.</li>
+    <li>Comprueba en <b>Administración del sitio → Informes → Estado del sistema</b> que la línea de
+      integridad de los ficheros del plugin está en OK.</li>
+    <li>Listo: de serie <b>todos los cursos miden el tiempo</b> y muestran el reloj. Los valores del sitio
+      están en <b>Administración del sitio → Extensiones → Complementos locales → Medidor de tiempo real</b>,
+      y cada curso puede cambiarlos.</li>
+  </ol>
+  <p>Requisitos: Moodle™ 5.1, 5.2 o 5.3 · PHP 8.2 o superior · MySQL/MariaDB o PostgreSQL.</p>
+</section>
+
+<!-- 3 -->
+<section class="part">
+  <h2 id="s3"><span class="num">3</span>Cómo mide el tiempo</h2>
+  <p>El reloj empieza a contar cuando el estudiante abre una actividad y solo sigue contando mientras esa
+  pestaña está <b>visible y con el foco</b>.</p>
+  <table>
+    <tr><th>Cuenta</th><th>No cuenta</th></tr>
+    <tr><td>La actividad abierta y en primer plano, también con un vídeo reproduciéndose en ella (a propósito).</td>
+        <td>La pestaña en segundo plano, la ventana minimizada o el estudiante en otra aplicación.</td></tr>
+    <tr><td>Los paquetes SCORM, también los que se abren en una ventana nueva.</td>
+        <td>Los saltos de reloj, por ejemplo con el equipo suspendido: se recortan.</td></tr>
+    <tr><td>Los estudiantes del curso (permiso <code>local/eftimeclock:recordtime</code>).</td>
+        <td>El profesorado, los gestores y los administradores: no ven el reloj y no se les mide nada,
+        aunque además estén matriculados como estudiantes.</td></tr>
+  </table>
+  <div class="box ok"><div class="h">Comprobación en el servidor</div>
+    Cada visita lleva su propio identificador y el guardado nunca duplica, ni siquiera con conexiones
+    inestables. Además, el servidor solo acepta los segundos que de verdad han pasado desde el guardado
+    anterior de ese estudiante: ni una llamada manipulada, ni repetir un envío, ni dos dispositivos a la vez
+    inflan el total. Ante la duda, mide de menos.</div>
+  <h3>El aviso de transparencia</h3>
+  <p>La primera vez que el estudiante entra en una actividad ve una franja que le explica que su tiempo se
+  mide y que el reloj le enseña su tiempo acumulado. Al pulsar <b>Entendido</b> no vuelve a salir. Se puede
+  desactivar para todo el sitio.</p>
+  <img class="shot" style="max-width:125mm" src="es_03_notice.png" alt="Aviso de transparencia en la parte superior de la actividad">
+  <div class="shotcap">El aviso, arriba, una sola vez por estudiante. El reloj ya está contando abajo a la derecha.</div>
+</section>
+
+<!-- 4 -->
+<section class="part">
+  <h2 id="s4"><span class="num">4</span>El reloj que ve el estudiante</h2>
+  <p>En cada actividad del curso, el estudiante ve un reloj flotante abajo a la derecha con su <b>tiempo de
+  conexión</b> acumulado en el curso y su estado: <b>conectado</b> mientras cuenta y <b>en pausa</b> cuando
+  la pestaña deja de estar activa.</p>
+  <img class="shot" src="es_01_clock_sapphire.png" alt="Actividad de un curso con el reloj flotante abajo a la derecha">
+  <div class="shotcap">Una actividad con el reloj en su sitio: discreto, sin tapar el contenido.</div>
+  <div class="grid2">
+    <div><div style="width:70mm;height:40mm;overflow:hidden;position:relative;border:1px solid var(--line);border-radius:8px;margin:2mm auto;">
+      <img src="es_01_clock_sapphire.png" alt="Reloj con el tema Zafiro" style="position:absolute;right:0;bottom:0;width:266mm;"></div>
+      <div class="shotcap" style="margin-top:1mm">Tema <b>Zafiro</b>, el de serie.</div></div>
+    <div><div style="width:70mm;height:40mm;overflow:hidden;position:relative;border:1px solid var(--line);border-radius:8px;margin:2mm auto;">
+      <img src="es_02_clock_slate.png" alt="Reloj con el tema Pizarra" style="position:absolute;right:0;bottom:0;width:266mm;"></div>
+      <div class="shotcap" style="margin-top:1mm">Tema <b>Pizarra</b>: negro y sobrio.</div></div>
+  </div>
+  <ul class="tick">
+    <li>Con la <b>✕</b> el estudiante lo <b>minimiza</b> a una pastilla que sigue mostrando el contador; un clic
+      lo vuelve a abrir. Minimizarlo no para la medición.</li>
+    <li>El reloj sale en las <b>actividades</b>. La página principal del curso no se mide en esta versión gratuita.</li>
+    <li>El tema se elige por curso o para todo el sitio (apartado 6).</li>
+  </ul>
+</section>
+
+<!-- 5 -->
+<section class="part">
+  <h2 id="s5"><span class="num">5</span>El informe del curso</h2>
+  <p>En el curso: <b>Más → Informe del Medidor de tiempo real</b> (profesorado y gestión). Una fila por
+  estudiante con el <b>primer acceso medido</b>, el <b>último acceso medido</b> y el <b>tiempo total</b>.</p>
+  <img class="shot" src="es_04_report.png" alt="Informe del Medidor de tiempo real con las descargas y la tabla de estudiantes">
+  <div class="shotcap">Descargas en <b>Excel</b> y <b>CSV</b> arriba. Lo marcado como <b>PRO</b> (PDF para
+  auditoría, filtros, porcentaje sobre las horas y detalle por actividad) es del Pack Formación Bonificada Pro.</div>
+  <ul class="tick">
+    <li>Con <b>grupos separados</b>, cada profesor ve solo a los estudiantes de sus grupos.</li>
+    <li>Las descargas llevan los mismos datos que la tabla, listos para abrir en una hoja de cálculo.</li>
+  </ul>
+
+</section>
+
+<!-- 6 -->
+<section class="part">
+  <h2 id="s6"><span class="num">6</span>Ajustes del curso y del sitio</h2>
+  <h3>En cada curso</h3>
+  <p>En el curso: <b>Más → Configuración del Medidor de tiempo real</b>.</p>
+  <img class="shot" style="max-width:112mm" src="es_05_settings.png" alt="Configuración del Medidor de tiempo real en el curso con la galería de temas">
+  <div class="shotcap">Arriba, «Usar los valores del sitio» y el interruptor de medición; debajo, la galería de
+  temas: <b>Zafiro</b> y <b>Pizarra</b> se eligen aquí, el resto viene con el Pack.</div>
+  <table>
+    <tr><th>Ajuste</th><th>Qué hace</th></tr>
+    <tr><td><b>Usar los valores del sitio</b></td><td>El curso sigue siempre lo que diga el sitio (medir o no y tema). Desmárcalo para decidirlo en este curso.</td></tr>
+    <tr><td><b>Medir el tiempo y mostrar el reloj</b></td><td>Enciende o apaga la medición en este curso.</td></tr>
+    <tr><td><b>Tema del reloj</b></td><td>Zafiro o Pizarra.</td></tr>
+  </table>
+  <h3>Para todo el sitio</h3>
+  <p>En <b>Administración del sitio → Extensiones → Complementos locales → Medidor de tiempo real</b>:</p>
+  <table>
+    <tr><th>Ajuste</th><th>De serie</th><th>Qué hace</th></tr>
+    <tr><td><b>Medir el tiempo por defecto</b></td><td>Sí</td><td>Si los cursos miden el tiempo y muestran el reloj. Cada curso puede cambiarlo.</td></tr>
+    <tr><td><b>Tema del reloj por defecto</b></td><td>Zafiro</td><td>El tema de los cursos sin ajuste propio.</td></tr>
+    <tr><td><b>Mostrar el aviso de medición</b></td><td>Sí</td><td>El aviso de transparencia que ve cada estudiante una sola vez.</td></tr>
+  </table>
+
+<!-- 7-8 -->
+  <h2 id="s7"><span class="num">7</span>Permisos y datos</h2>
+  <table>
+    <tr><th>Permiso</th><th>De serie lo tiene</th><th>Qué permite</th></tr>
+    <tr><td><code>local/eftimeclock:viewreport</code></td><td>Profesor, profesor con permiso de edición, gestor</td>
+        <td>Ver el informe y descargarlo. Concédeselo también a un rol de auditor de solo lectura si lo usas.
+        Quien lo tiene queda <b>fuera de la medición</b>.</td></tr>
+    <tr><td><code>local/eftimeclock:manage</code></td><td>Profesor con permiso de edición, gestor</td>
+        <td>Cambiar los ajustes del curso.</td></tr>
+    <tr><td><code>local/eftimeclock:recordtime</code></td><td>Estudiante</td>
+        <td>Que se le mida el tiempo.</td></tr>
+  </table>
+  <ul class="tick">
+    <li><b>Copia de seguridad del curso</b>: los ajustes del medidor viajan siempre; el tiempo medido, solo
+      si marcas «Incluir usuarios matriculados». Restaurar dos veces no duplica.</li>
+    <li><b>Reiniciar el curso</b> dando de baja a los estudiantes borra su tiempo medido: una edición nueva
+      empieza de cero. Los ajustes se conservan. Descarga antes el informe si lo necesitas.</li>
+    <li><b>Borrar el curso</b> borra con él su tiempo medido y sus ajustes; la confirmación avisa si hay
+      tiempo guardado.</li>
+    <li><b>Privacidad (RGPD)</b>: el plugin declara qué guarda y permite exportar y borrar los datos de cada
+      persona con las herramientas de privacidad de Moodle™.</li>
+  </ul>
+
+  <h2 id="s8"><span class="num">8</span>Qué no hace</h2>
+  <p>Es un medidor gratuito y honesto. Para que no haya sorpresas, esto es lo que <b>no</b> hace:</p>
+  <ul class="tick">
+    <li>No mide la <b>página principal del curso</b>: solo las actividades.</li>
+    <li>No mide el <b>tiempo en segundo plano</b>: vídeos o recursos externos abiertos en otra pestaña,
+      ni videoconferencias.</li>
+    <li>No calcula el <b>porcentaje sobre las horas</b> del curso ni da <b>detalle por actividad</b>.</li>
+    <li>No genera <b>informes en PDF</b> ni filtra por fechas, grupos o actividades.</li>
+    <li>No incluye <b>control de inactividad</b> ni finalización de actividades por tiempo.</li>
+  </ul>
+  <p>Todo eso lo hace el <b>Pack Formación Bonificada Pro</b> (apartado 9). Software libre (GPL v3), sin
+  llamadas externas ni recursos de terceros, con pruebas automáticas y revisión de código en cada versión.</p>
+
+<!-- 9-10 -->
+  <h2 id="s9"><span class="num">9</span>Pasar al Pack Formación Bonificada Pro sin perder datos</h2>
+  <p>El reloj te dice cuánto tiempo dedican tus estudiantes. El <b>Pack Formación Bonificada Pro</b> de
+  eLearning Fácil te lo deja <b>demostrado ante una auditoría</b>: porcentaje sobre las horas comunicadas,
+  detalle por actividad, tiempo en segundo plano (vídeos, recursos externos y videoconferencia),
+  finalización por tiempo, el bloque de progreso del estudiante, informes en PDF y el expediente del curso
+  para la inspección de FUNDAE®.</p>
+  <div class="box ok"><div class="h">Empezar gratis no te cuesta datos</div>
+    Al instalar el Pack en un sitio que usa este medidor, <b>importa todo el tiempo ya medido</b> y el
+    Medidor de tiempo real <b>se aparta solo</b>: deja de mostrar el reloj y de registrar, y sus páginas lo
+    indican. Así hay un único reloj y una única medición.</div>
+  <p>Más información en <a href="https://elearningfacil.com/pack-fundae-moodle/"><b>elearningfacil.com/pack-fundae-moodle</b></a>.</p>
+
+  <h2 id="s10"><span class="num">10</span>Preguntas frecuentes</h2>
+  <h3>¿El estudiante puede parar el reloj?</h3>
+  <p>Puede minimizarlo, pero la medición sigue las mismas reglas: cuenta solo con la actividad visible y con
+  el foco. Minimizarlo no cambia nada.</p>
+  <h3>Un profesor no ve el reloj</h3>
+  <p>Es lo esperado: quien puede ver el informe, y los administradores, no se miden. Para ver lo mismo que
+  el estudiante, entra con una cuenta de estudiante de prueba.</p>
+  <h3>¿Por qué no sale el reloj en la página principal del curso?</h3>
+  <p>La versión gratuita mide solo las actividades. La medición de la página principal es del Pack.</p>
+  <h3>Tengo el Pack instalado y el reloj gratuito no sale</h3>
+  <p>Es lo esperado: con el Pack presente, este plugin se aparta solo para que haya una única medición.</p>
+  <h3>¿Los datos sirven para una auditoría de formación bonificada?</h3>
+  <p>El registro es honesto y no duplica, pero una auditoría suele pedir más: porcentaje sobre las horas
+  comunicadas, evidencias por actividad, comunicaciones con el tutor… Eso es el Pack Formación Bonificada Pro.</p>
+  <h3>El tiempo de un vídeo en otra pestaña no suma</h3>
+  <p>Es a propósito: si la pestaña de la actividad no está activa, no cuenta. Un vídeo dentro de la propia
+  actividad, con la pestaña delante, sí suma.</p>
+</section>
+
+<!-- 11 -->
+<section class="part">
+  <div class="partbar"><div class="k">eLearning Fácil</div><h1 id="s11">Otros plugins de eLearning Fácil</h1>
+    <p>Hechos para centros de formación, empresas y academias que trabajan con Moodle™.</p></div>
+  <div class="promo">
+    <a href="https://elearningfacil.com"><img src="pack_512.png" alt=""><div><b>Pack Formación Bonificada Pro</b><span>Tus cursos bonificados se justifican solos: tiempo real, tutoría con fecha, controles y el expediente de cada grupo para FUNDAE®.</span></div></a>
+    <a href="https://elearningfacil.com"><img src="class-manager_512.png" alt=""><div><b>Gestor de Aula</b><span>Vende cursos por plazas: tu cliente da de alta a su gente, con tope de plazas, tiempo de acceso y bienvenida automática.</span></div></a>
+    <a href="https://elearningfacil.com"><img src="bulk-certificate_512.png" alt=""><div><b>Gestor masivo de certificados</b><span>Filtra, emite y descarga en un zip los certificados de todo un grupo, con Custom certificate o los de Workplace.</span></div></a>
+    <a href="https://elearningfacil.com"><img src="direct-scorm-player_512.png" alt=""><div><b>Reproductor SCORM directo</b><span>Gratis: un clic y el estudiante ya está dentro del SCORM, a pantalla completa y sin ventanas nuevas.</span></div></a>
+  </div>
+  <div class="cta"><b style="font-family:'Poppins';font-size:13pt;">¿Quieres saber más?</b><br>
+    Escríbenos y te contamos cuál encaja con tu Moodle™.<br>
+    <a href="https://elearningfacil.com">elearningfacil.com</a>
+    <p class="small" style="margin-top:3mm;">info@elearningfacil.com · WhatsApp +34 647 002 997</p></div>
+
+  <hr class="s">
+  <p class="small">Guía del plugin <code>local_eftimeclock</code> · versión 0.3.1 · © 2026 eLearning
+  Fácil · <a href="https://elearningfacil.com">elearningfacil.com</a></p>
+<hr class="s">
+<p class="small">Moodle™ es una marca registrada de Moodle Pty Ltd. FUNDAE® es marca registrada de la Fundación Estatal para la Formación en el Empleo. SCORM® es una marca registrada de Advanced Distributed Learning (ADL). eLearning Fácil no está vinculada, asociada ni respaldada por ninguna de ellas; los nombres se citan únicamente para describir la compatibilidad de nuestros productos.</p>
+</section>
+
+</body>
+</html>

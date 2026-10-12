@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family:'Poppins'; src:url('fonts/Poppins-Regular.ttf'); font-weight:400; }
+  @font-face { font-family:'Poppins'; src:url('fonts/Poppins-Medium.ttf'); font-weight:500; }
+  @font-face { font-family:'Poppins'; src:url('fonts/Poppins-SemiBold.ttf'); font-weight:600; }
+  @font-face { font-family:'Poppins'; src:url('fonts/Poppins-Bold.ttf'); font-weight:700; }
+  @font-face { font-family:'Lato'; src:url('fonts/Lato-Regular.ttf'); font-weight:400; }
+  @font-face { font-family:'Lato'; src:url('fonts/Lato-Bold.ttf'); font-weight:700; }
+
+  :root{
+    --teal:#009b9b; --teal-d:#00787a; --teal-l:#e6f5f5; --teal-l2:#d2ecec;
+    --orange:#F39200; --orange-l:#fff3e0; --orange-d:#c9760a;
+    --ink:#2d3a3a; --muted:#6c7a7a; --line:#dfeaea;
+  }
+  @page{
+    size:A4; margin:18mm 16mm 16mm 16mm;
+    @bottom-center{ content:"eLearning Fácil  ·  elearningfacil.com"; font-family:'Lato'; font-size:8pt; color:#9fb0b0; }
+    @bottom-right{ content:counter(page); font-family:'Poppins'; font-weight:600; font-size:9pt; color:var(--teal); }
+  }
+  @page cover{ margin:0; @bottom-center{content:""} @bottom-right{content:""} }
+  @page :first{ margin:0; }
+  a{ color:var(--teal-d); text-decoration:none; }
+
+  *{box-sizing:border-box;}
+  body{ font-family:'Lato'; color:var(--ink); font-size:10.5pt; line-height:1.5; margin:0; }
+  h1,h2,h3,h4{ font-family:'Poppins'; color:var(--teal-d); margin:0 0 .3em; line-height:1.2; }
+  p{ margin:0 0 .6em; }
+  b,strong{ font-weight:700; }
+  code{ font-family:'Lato'; background:var(--teal-l); color:var(--teal-d); padding:1px 5px; border-radius:4px; font-size:9.5pt; font-weight:700; }
+
+  /* Portada clara (sistema de marca): fondo blanco, círculo crema, logo sin caja y enlazado */
+  .cover{ page:cover; height:297mm; background:#fff; color:var(--ink); position:relative; overflow:hidden; }
+  .cover .blob{ position:absolute; border-radius:50%; }
+  .cover .b1{ width:170mm; height:170mm; right:-60mm; top:-70mm; background:#fff3d2; }
+  .cover .b2{ width:110mm; height:110mm; left:-45mm; bottom:-40mm; background:var(--teal-l); }
+  .cover-inner{ position:absolute; inset:0; padding:22mm 22mm 20mm; display:flex; flex-direction:column; }
+  .cover .logo{ width:72mm; display:block; }
+  .cover .eyebrow{ margin-top:46mm; font-family:'Poppins'; font-weight:700; font-size:10pt; letter-spacing:2.5px; color:#a85400; text-transform:uppercase; }
+  .cover h1{ color:#1a1a1a; font-size:40pt; font-weight:700; margin:3mm 0 0; line-height:1.05; }
+  .cover .sub{ font-family:'Poppins'; font-weight:600; font-size:15pt; color:#1a1a1a; margin-top:5mm; }
+  .cover .sub u{ text-decoration:none; background:#fec93f; padding:0 2mm; border-radius:4px; }
+  .cover .tag{ display:inline-block; background:var(--orange); color:#1a1a1a; font-family:'Poppins'; font-weight:700;
+    font-size:10pt; padding:4px 14px; border-radius:30px; margin-top:8mm; align-self:flex-start; }
+  .cover .ver{ margin-top:4mm; font-family:'Poppins'; font-weight:500; font-size:10pt; color:var(--muted); }
+  .by{ margin-top:auto; background:#fff3d2; border-radius:14px; padding:7mm 8mm; display:flex; gap:7mm; align-items:center; }
+  .by img{ width:22mm; height:22mm; border-radius:6mm; }
+  .by .k{ font-family:'Poppins'; font-weight:700; font-size:9pt; letter-spacing:1.5px; color:#a85400; text-transform:uppercase; }
+  .by p{ margin:1mm 0 0; font-size:10.5pt; }
+  .by a{ font-family:'Poppins'; font-weight:700; color:var(--teal-d); }
+  /* índice: cada fila es un enlace y el número de página sale solo */
+  .toc a.row{ color:inherit; }
+  .toc a.row::after{ content:target-counter(attr(href url), page); margin-left:auto; font-family:'Poppins'; font-weight:600; color:var(--teal); }
+  /* promo final */
+  .promo{ display:flex; flex-wrap:wrap; gap:5mm; margin-top:4mm; }
+  .promo a{ width:calc(50% - 2.5mm); display:flex; gap:4mm; align-items:flex-start; background:#f6fbfb; border:1px solid var(--line); border-radius:10px; padding:4.5mm; color:var(--ink); break-inside:avoid; }
+  .promo img{ width:16mm; height:16mm; flex:none; }
+  .promo b{ display:block; font-family:'Poppins'; color:var(--teal-d); font-size:11pt; margin-bottom:1mm; }
+  .promo span{ font-size:9.5pt; line-height:1.4; }
+  .cta{ margin-top:7mm; background:#fff3d2; border-radius:12px; padding:6mm 7mm; text-align:center; }
+  .cta a{ display:inline-block; margin-top:3mm; background:var(--orange); color:#1a1a1a; font-family:'Poppins'; font-weight:700; border-radius:30px; padding:3mm 8mm; }
+  .part{ page-break-before:always; }
+  .partbar{ background:linear-gradient(90deg,var(--teal),var(--teal-d)); color:#fff; border-radius:12px;
+    padding:7mm 9mm; margin-bottom:7mm; }
+  .partbar .k{ font-family:'Poppins'; font-weight:600; font-size:10pt; letter-spacing:2px; color:#bff0f0; text-transform:uppercase; }
+  .partbar h1{ color:#fff; font-size:23pt; margin:2mm 0 0; }
+  .partbar p{ margin:2mm 0 0; color:#d6f5f5; font-size:10.5pt; }
+
+  h2{ font-size:15.5pt; margin-top:8mm; padding-bottom:2mm; border-bottom:2px solid var(--teal-l2); }
+  .num{ display:inline-block; min-width:8mm; height:8mm; line-height:8mm; text-align:center; background:var(--orange);
+    color:#fff; border-radius:50%; font-family:'Poppins'; font-weight:700; font-size:11pt; margin-right:3mm; }
+  h3{ font-size:12.5pt; color:var(--teal); margin-top:5mm; }
+
+  .box{ border-radius:10px; padding:5mm 6mm; margin:4mm 0; break-inside:avoid; font-size:10pt; }
+  .box .h{ font-family:'Poppins'; font-weight:600; font-size:9.5pt; letter-spacing:.5px; text-transform:uppercase; margin-bottom:1.5mm; }
+  .tip{ background:var(--orange-l); border-left:5px solid var(--orange); }
+  .tip .h{ color:var(--orange-d); }
+  .ok{ background:var(--teal-l); border-left:5px solid var(--teal); }
+  .ok .h{ color:var(--teal-d); }
+
+  ol.steps{ counter-reset:s; list-style:none; padding:0; margin:3mm 0; }
+  ol.steps>li{ position:relative; padding:0 0 4mm 12mm; break-inside:avoid; }
+  ol.steps>li:before{ counter-increment:s; content:counter(s); position:absolute; left:0; top:-1mm;
+    width:8mm; height:8mm; line-height:8mm; text-align:center; background:var(--teal); color:#fff;
+    border-radius:50%; font-family:'Poppins'; font-weight:700; font-size:10pt; }
+
+  ul.tick{ list-style:none; padding-left:0; margin:2mm 0; }
+  ul.tick li{ padding-left:7mm; position:relative; margin-bottom:2mm; }
+  ul.tick li:before{ content:""; position:absolute; left:0; top:2mm; width:3.2mm; height:3.2mm; background:var(--orange); border-radius:50%; }
+
+  table{ width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt; break-inside:avoid; }
+  th{ background:var(--teal); color:#fff; font-family:'Poppins'; font-weight:600; text-align:left; padding:3mm 3mm; }
+  td{ border-bottom:1px solid var(--line); padding:2.6mm 3mm; vertical-align:top; }
+  tr:nth-child(even) td{ background:#f6fbfb; }
+
+  .toc{ margin-top:4mm; }
+  .toc .row{ display:flex; align-items:baseline; border-bottom:1px dotted var(--line); padding:2.4mm 0; }
+  .toc .row .tt{ font-family:'Poppins'; font-weight:500; color:var(--ink); }
+  .toc .row .pg{ margin-left:auto; font-family:'Poppins'; font-weight:600; color:var(--teal); }
+  .toc .grp{ font-family:'Poppins'; font-weight:700; color:var(--orange-d); margin:6mm 0 1mm; font-size:11pt; letter-spacing:.5px; }
+
+  .lead{ font-size:11.5pt; color:var(--muted); }
+  .grid2{ display:flex; gap:6mm; }
+  .grid2>div{ flex:1; }
+  .card{ background:#f6fbfb; border:1px solid var(--line); border-radius:10px; padding:5mm; break-inside:avoid; }
+  .card h4{ font-size:11pt; color:var(--teal); margin-bottom:2mm; }
+  hr.s{ border:none; border-top:1px solid var(--line); margin:6mm 0; }
+  .small{ font-size:9pt; color:var(--muted); }
+  .shot{ display:block; width:100%; max-width:150mm; border:1px solid var(--line); border-radius:8px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08); margin:4mm auto; break-inside:avoid; }
+  .shot.movil{ max-width:52mm; }
+  .shotcap{ text-align:center; font-size:8.5pt; color:var(--muted); margin:-2mm 0 4mm; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="cover-inner">
+    <a href="https://elearningfacil.com"><img class="logo" src="logo_horizontal.png" alt="eLearning Fácil"></a>
+    <div class="eyebrow">Free plugin for Moodle™</div>
+    <h1>Active Time Clock</h1>
+    <div class="sub">Moodle™ logs clicks. <u>This measures time.</u></div>
+    <div class="tag">Plugin guide · local_eftimeclock</div>
+    <div class="ver">Version 0.3.1 · Works with Moodle™ 5.1, 5.2 and 5.3</div>
+    <div class="by">
+      <img src="active-time-clock_512.png" alt="">
+      <div><div class="k">Developed and maintained by eLearning Fácil</div>
+        <p>An independent company that builds plugins for Moodle™ to save time for training providers and
+        companies: time tracking, reports, certificates and student management.</p>
+        <p><a href="https://elearningfacil.com">elearningfacil.com</a> · info@elearningfacil.com</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENTS -->
+<section class="part">
+  <div class="partbar"><div class="k">Contents</div><h1>Table of contents</h1></div>
+  <div class="toc">
+    <div class="grp">Guide</div>
+    <a class="row" href="#s1"><span class="tt">1. What it is and what it is for</span></a>
+    <a class="row" href="#s2"><span class="tt">2. Installation</span></a>
+    <a class="row" href="#s3"><span class="tt">3. How time is measured</span></a>
+    <a class="row" href="#s4"><span class="tt">4. The clock the student sees</span></a>
+    <a class="row" href="#s5"><span class="tt">5. The course report</span></a>
+    <a class="row" href="#s6"><span class="tt">6. Course and site settings</span></a>
+    <div class="grp">Reference</div>
+    <a class="row" href="#s7"><span class="tt">7. Permissions and data</span></a>
+    <a class="row" href="#s8"><span class="tt">8. What it doesn’t do</span></a>
+    <a class="row" href="#s9"><span class="tt">9. Moving to the complete suite without losing data</span></a>
+    <a class="row" href="#s10"><span class="tt">10. Frequently asked questions</span></a>
+    <a class="row" href="#s11"><span class="tt">More plugins by eLearning Fácil</span></a>
+  </div>
+</section>
+
+<!-- 1-2 -->
+<section class="part">
+  <div class="partbar"><div class="k">Guide</div><h1>The time clock</h1>
+    <p>How much time each student really spends on your course activities, for free.</p></div>
+
+  <h2 id="s1"><span class="num">1</span>What it is and what it is for</h2>
+  <p class="lead">Moodle™ logs every click, but it doesn’t know how long the student actually spends on an
+  activity. <b>Active Time Clock</b> measures it: it counts each student’s active time on the course activities
+  and shows it to them in a floating clock.</p>
+  <ul class="tick">
+    <li><b>Only real time counts</b>: while the activity tab is visible and focused. A background tab or switching
+      to another application pauses it.</li>
+    <li><b>Data you can trust</b>: the server never trusts the browser and never adds more time than has really
+      passed.</li>
+    <li><b>Floating clock</b> on activities, with two themes (Sapphire and Slate) and a transparency notice for the
+      student.</li>
+    <li><b>A simple report per course</b> with Excel and CSV downloads, respecting separate groups.</li>
+    <li><b>Per-course settings</b> and site-wide defaults.</li>
+  </ul>
+
+  <h2 id="s2"><span class="num">2</span>Installation</h2>
+  <ol class="steps">
+    <li><b>Back up your site before installing</b>: database, moodledata folder and code. It is good practice with
+      any plugin.</li>
+    <li><b>Site administration → Plugins → Install plugins</b>: upload the ZIP and confirm.</li>
+    <li>Check in <b>Site administration → Reports → System status</b> that the plugin file integrity line is OK.</li>
+    <li>Done: by default <b>every course measures time</b> and shows the clock. Site defaults are in
+      <b>Site administration → Plugins → Local plugins → Active Time Clock</b>, and each course can change them.</li>
+  </ol>
+  <p>Requirements: Moodle™ 5.1, 5.2 or 5.3 · PHP 8.2 or later · MySQL/MariaDB or PostgreSQL.</p>
+</section>
+
+<!-- 3 -->
+<section class="part">
+  <h2 id="s3"><span class="num">3</span>How time is measured</h2>
+  <p>The clock starts counting when the student opens an activity and only keeps counting while that tab is
+  <b>visible and focused</b>.</p>
+  <table>
+    <tr><th>Counts</th><th>Doesn’t count</th></tr>
+    <tr><td>The activity open and in front, including a video playing in it (on purpose).</td>
+        <td>A background tab, a minimised window or the student in another application.</td></tr>
+    <tr><td>SCORM packages, including those that open in a new window.</td>
+        <td>Clock jumps, for example when the computer sleeps: they are trimmed.</td></tr>
+    <tr><td>The course students (capability <code>local/eftimeclock:recordtime</code>).</td>
+        <td>Teachers, managers and site administrators: they see no clock and nothing is recorded for them, even
+        when they are also enrolled as students.</td></tr>
+  </table>
+  <div class="box ok"><div class="h">Checked on the server</div>
+    Each visit has its own identifier and saving never duplicates, even on unstable connections. On top of that,
+    the server only accepts the seconds that have really passed since that student’s previous save: a hand-made
+    call, a replayed request or two devices at once cannot inflate the total. When in doubt, it measures less.</div>
+  <h3>The transparency notice</h3>
+  <p>The first time the student opens an activity, a banner explains that their time is being measured and that
+  the clock shows their accumulated time. Once they click <b>Got it</b> it doesn’t appear again. It can be turned
+  off for the whole site.</p>
+  <img class="shot" style="max-width:125mm" src="en_03_notice.png" alt="Transparency notice at the top of the activity">
+  <div class="shotcap">The notice at the top, once per student. The clock is already counting at the bottom right.</div>
+</section>
+
+<!-- 4 -->
+<section class="part">
+  <h2 id="s4"><span class="num">4</span>The clock the student sees</h2>
+  <p>On every course activity, the student sees a floating clock at the bottom right with their accumulated
+  <b>connection time</b> in the course and its status: <b>connected</b> while it counts and <b>paused</b> when the tab
+  is no longer active.</p>
+  <img class="shot" src="en_01_clock_sapphire.png" alt="A course activity with the floating clock at the bottom right">
+  <div class="shotcap">An activity with the clock in place: discreet, without covering the content.</div>
+  <div class="grid2">
+    <div><div style="width:70mm;height:40mm;overflow:hidden;position:relative;border:1px solid var(--line);border-radius:8px;margin:2mm auto;">
+      <img src="en_01_clock_sapphire.png" alt="Clock with the Sapphire theme" style="position:absolute;right:0;bottom:0;width:266mm;"></div>
+      <div class="shotcap" style="margin-top:1mm"><b>Sapphire</b> theme, the default.</div></div>
+    <div><div style="width:70mm;height:40mm;overflow:hidden;position:relative;border:1px solid var(--line);border-radius:8px;margin:2mm auto;">
+      <img src="en_02_clock_slate.png" alt="Clock with the Slate theme" style="position:absolute;right:0;bottom:0;width:266mm;"></div>
+      <div class="shotcap" style="margin-top:1mm"><b>Slate</b> theme: black and understated.</div></div>
+  </div>
+  <ul class="tick">
+    <li>With the <b>✕</b> the student <b>minimises</b> it to a small pill that keeps showing the counter; one click
+      opens it again. Minimising doesn’t stop the measurement.</li>
+    <li>The clock appears on <b>activities</b>. The course main page is not measured in this free version.</li>
+    <li>The theme is chosen per course or for the whole site (section 6).</li>
+  </ul>
+</section>
+
+<!-- 5 -->
+<section class="part">
+  <h2 id="s5"><span class="num">5</span>The course report</h2>
+  <p>In the course: <b>More → Active Time Clock report</b> (teachers and managers). One row per student with the
+  <b>first measured access</b>, the <b>last measured access</b> and the <b>total time</b>.</p>
+  <img class="shot" src="en_04_report.png" alt="Active Time Clock report with downloads and the student table">
+  <div class="shotcap"><b>Excel</b> and <b>CSV</b> downloads at the top. Items marked <b>PRO</b> (audit-ready PDF,
+  filters, percentage of the course hours and per-activity detail) come with the complete suite.</div>
+  <ul class="tick">
+    <li>With <b>separate groups</b>, each teacher sees only the students in their own groups.</li>
+    <li>The downloads contain the same data as the table, ready to open in a spreadsheet.</li>
+  </ul>
+
+</section>
+
+<!-- 6 -->
+<section class="part">
+  <h2 id="s6"><span class="num">6</span>Course and site settings</h2>
+  <h3>In each course</h3>
+  <p>In the course: <b>More → Active Time Clock settings</b>.</p>
+  <img class="shot" style="max-width:112mm" src="en_05_settings.png" alt="Active Time Clock settings in the course with the theme gallery">
+  <div class="shotcap">At the top, “Use the site values” and the measuring switch; below, the theme gallery:
+  <b>Sapphire</b> and <b>Slate</b> are chosen here, the rest come with the complete suite.</div>
+  <table>
+    <tr><th>Setting</th><th>What it does</th></tr>
+    <tr><td><b>Use the site values</b></td><td>The course always follows the site (measure or not, and theme). Untick it to decide in this course.</td></tr>
+    <tr><td><b>Measure time and show the clock</b></td><td>Turns measuring on or off in this course.</td></tr>
+    <tr><td><b>Clock theme</b></td><td>Sapphire or Slate.</td></tr>
+  </table>
+  <h3>For the whole site</h3>
+  <p>In <b>Site administration → Plugins → Local plugins → Active Time Clock</b>:</p>
+  <table>
+    <tr><th>Setting</th><th>Default</th><th>What it does</th></tr>
+    <tr><td><b>Measure time by default</b></td><td>Yes</td><td>Whether courses measure time and show the clock. Each course can change it.</td></tr>
+    <tr><td><b>Default clock theme</b></td><td>Sapphire</td><td>The theme for courses without their own setting.</td></tr>
+    <tr><td><b>Show the measurement notice</b></td><td>Yes</td><td>The transparency notice each student sees once.</td></tr>
+  </table>
+
+<!-- 7-8 -->
+  <h2 id="s7"><span class="num">7</span>Permissions and data</h2>
+  <table>
+    <tr><th>Capability</th><th>Granted by default to</th><th>What it allows</th></tr>
+    <tr><td><code>local/eftimeclock:viewreport</code></td><td>Teacher, editing teacher, manager</td>
+        <td>View and download the report. Also grant it to a read-only auditor role if you use one. Anyone who has it
+        is <b>not measured</b>.</td></tr>
+    <tr><td><code>local/eftimeclock:manage</code></td><td>Editing teacher, manager</td>
+        <td>Change the course settings.</td></tr>
+    <tr><td><code>local/eftimeclock:recordtime</code></td><td>Student</td>
+        <td>Have their time measured.</td></tr>
+  </table>
+  <ul class="tick">
+    <li><b>Course backup</b>: the clock settings always travel; the measured time only when you tick “Include
+      enrolled users”. Restoring twice doesn’t duplicate.</li>
+    <li><b>Resetting the course</b> while unenrolling the students deletes their measured time, so a new edition
+      starts from zero. The settings are kept. Download the report first if you need it.</li>
+    <li><b>Deleting the course</b> deletes its measured time and settings with it; the confirmation page warns you
+      if there is time recorded.</li>
+    <li><b>Privacy (GDPR)</b>: the plugin declares what it stores and lets you export and delete each person’s data
+      with the Moodle™ privacy tools.</li>
+  </ul>
+
+  <h2 id="s8"><span class="num">8</span>What it doesn’t do</h2>
+  <p>It is a free, honest clock. So there are no surprises, this is what it does <b>not</b> do:</p>
+  <ul class="tick">
+    <li>It doesn’t measure the <b>course main page</b>: only activities.</li>
+    <li>It doesn’t measure <b>background time</b>: videos or external resources open in another tab, or video
+      conferences.</li>
+    <li>It doesn’t calculate the <b>percentage of the course hours</b> or give <b>per-activity detail</b>.</li>
+    <li>It doesn’t produce <b>PDF reports</b> or filter by dates, groups or activities.</li>
+    <li>It has no <b>inactivity control</b> and no time-based activity completion.</li>
+  </ul>
+  <p>All of that is in the <b>complete suite</b> (section 9). Free software (GPL v3), built to the Moodle™ plugin
+  guidelines: no external calls or third-party resources, automated tests and code review on every release.</p>
+
+<!-- 9-10 -->
+  <h2 id="s9"><span class="num">9</span>Moving to the complete suite without losing data</h2>
+  <p>The clock tells you how much time your students spend. eLearning Fácil’s <b>complete suite</b> lets you
+  <b>prove it in an audit</b>: percentage of the reported hours, per-activity detail, background time (videos,
+  external resources and video conferences), time-based completion, the student progress block, designed PDF
+  reports and an evidence file for every course.</p>
+  <div class="box ok"><div class="h">Starting free never costs you data</div>
+    When the complete suite is installed on a site that uses this clock, it <b>imports all the time already
+    measured</b> and Active Time Clock <b>steps aside automatically</b>: it stops showing the clock and recording,
+    and its pages say so. That way there is a single clock and a single measurement.</div>
+  <p>More information at <a href="https://elearningfacil.com"><b>elearningfacil.com</b></a>.</p>
+
+  <h2 id="s10"><span class="num">10</span>Frequently asked questions</h2>
+  <h3>Can the student stop the clock?</h3>
+  <p>They can minimise it, but measuring follows the same rules: it only counts while the activity is visible and
+  focused. Minimising changes nothing.</p>
+  <h3>A teacher doesn’t see the clock</h3>
+  <p>That is expected: anyone who can view the report, and site administrators, are not measured. To see what a
+  student sees, log in with a test student account.</p>
+  <h3>Why doesn’t the clock appear on the course main page?</h3>
+  <p>The free version measures activities only. Measuring the main page is part of the complete suite.</p>
+  <h3>I have the complete suite installed and the free clock doesn’t appear</h3>
+  <p>That is expected: with the suite present, this plugin steps aside so there is a single measurement.</p>
+  <h3>Is the data good enough for an audit?</h3>
+  <p>The record is honest and never duplicates, but an audit usually asks for more: percentage of the reported
+  hours, per-activity evidence, communications with the tutor… That is the complete suite.</p>
+  <h3>Time on a video in another tab doesn’t add up</h3>
+  <p>On purpose: if the activity tab is not active, it doesn’t count. A video inside the activity itself, with the
+  tab in front, does count.</p>
+</section>
+
+<!-- 11 -->
+<section class="part">
+  <div class="partbar"><div class="k">eLearning Fácil</div><h1 id="s11">More plugins by eLearning Fácil</h1>
+    <p>Built for training providers, companies and academies that work with Moodle™.</p></div>
+  <div class="promo">
+    <a href="https://elearningfacil.com"><img src="class-manager_512.png" alt=""><div><b>Class Manager</b><span>Sell courses by the seat: your client signs up their people, with capped seats, an access period and an automatic welcome email.</span></div></a>
+    <a href="https://elearningfacil.com"><img src="bulk-certificate_512.png" alt=""><div><b>Bulk Certificate Manager</b><span>Filter, issue and download a whole group’s certificates in one zip, with Custom certificate or Workplace certificates.</span></div></a>
+    <a href="https://elearningfacil.com"><img src="direct-scorm-player_512.png" alt=""><div><b>Direct SCORM player</b><span>Free: one click and the student is right inside the SCORM, full screen and with no new windows.</span></div></a>
+    <a href="https://elearningfacil.com"><img src="pack_512.png" alt=""><div><b>The complete suite</b><span>Time you can prove, PDF reports, completion by time spent and an evidence file for every group.</span></div></a>
+  </div>
+  <div class="cta"><b style="font-family:'Poppins';font-size:13pt;">Want to know more?</b><br>
+    Drop us a line and we’ll tell you which one fits your Moodle™.<br>
+    <a href="https://elearningfacil.com">elearningfacil.com</a>
+    <p class="small" style="margin-top:3mm;">info@elearningfacil.com · WhatsApp +34 647 002 997</p></div>
+
+  <hr class="s">
+  <p class="small">Guide for the <code>local_eftimeclock</code> plugin · version 0.3.1 · © 2026 eLearning Fácil · <a href="https://elearningfacil.com">elearningfacil.com</a></p>
+  <hr class="s">
+  <p class="small">Moodle™ is a registered trademark of Moodle Pty Ltd. SCORM® is a registered trademark of Advanced Distributed Learning (ADL). eLearning Fácil is not affiliated with, associated with or endorsed by either; the names are used only to describe compatibility.</p>
+</section>
+
+</body>
+</html>

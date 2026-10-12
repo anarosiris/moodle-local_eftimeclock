@@ -1,0 +1,507 @@
+/* Floating clock of eLearning Fácil Time Clock (free edition).
+   A single visible piece: the counter. Everything else, discreet.
+
+   Colours are defined as CSS variables so they can adapt to dark mode
+   without duplicating rules. Three dark-mode paths are covered:
+   1) System preference (prefers-color-scheme).
+   2) Boost/Bootstrap 5+ themes that set [data-bs-theme="dark"].
+   3) Themes that add classes to the body (.theme-dark, .dark-mode, .darkmode). */
+
+.etc-widget,
+.etc-consent {
+    --etc-bg: #0f2b46;            /* Deep blue, neutral with respect to the theme. */
+    --etc-fg: #ffffff;
+    --etc-border: transparent;
+    --etc-ok: #34d399;            /* Green: counting. */
+    --etc-ok-hover: #2bbd86;
+    --etc-ok-text: #04261a;
+    --etc-warn: #fbbf24;          /* Amber: paused. */
+    --etc-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Dark mode: background slightly lighter than the canvas and a subtle border
+   so the card does not blend into the page. Brighter status colours (AA). */
+@media (prefers-color-scheme: dark) {
+    .etc-widget,
+    .etc-consent {
+        --etc-bg: #1c2a3a;
+        --etc-border: rgba(255, 255, 255, 0.16);
+        --etc-ok: #4ade80;
+        --etc-warn: #fcd34d;
+        --etc-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+    }
+}
+
+[data-bs-theme="dark"] .etc-widget,
+[data-bs-theme="dark"] .etc-consent,
+body.theme-dark .etc-widget,
+body.theme-dark .etc-consent,
+body.dark-mode .etc-widget,
+body.dark-mode .etc-consent,
+body.darkmode .etc-widget,
+body.darkmode .etc-consent {
+    --etc-bg: #1c2a3a;
+    --etc-border: rgba(255, 255, 255, 0.16);
+    --etc-ok: #4ade80;
+    --etc-warn: #fcd34d;
+    --etc-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+
+.etc-widget {
+    --etc-off: 18px;
+    position: fixed;
+    right: var(--etc-off);
+    bottom: calc(var(--etc-off) + env(safe-area-inset-bottom, 0px));
+    z-index: 1040;
+    width: 168px;
+    max-width: calc(100vw - 24px);  /* Never overflows on narrow screens. */
+    padding: 0 16px 14px;
+    border-radius: 14px;
+    background: var(--etc-bg);
+    color: var(--etc-fg);
+    border: 1px solid var(--etc-border);
+    box-shadow: var(--etc-shadow);
+    text-align: center;
+    font-family: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+/* × button centred at the top of the widget.
+   Discreet circle, clearly visible and easy to tap on mobile and desktop. */
+.etc-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin: 8px auto 8px;   /* Air between the ✕ and the title (Ana's feedback). */
+    padding: 0;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 14px;
+    line-height: 1;
+    font-family: system-ui, sans-serif;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+}
+.etc-toggle:hover,
+.etc-toggle:focus {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.40);
+    outline: none;
+}
+
+/* ── Minimised state ──────────────────────────────────────────────────────
+   Compact pill: ⏱ 00:00:00 — it keeps showing the time so the student
+   knows it is active. One click on the pill restores the widget.
+   ─────────────────────────────────────────────────────────────────────── */
+.etc-widget.etc-min {
+    width: 106px;
+    padding: 7px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+/* Hide the handle (the whole pill acts as the restore button). */
+.etc-widget.etc-min .etc-toggle { display: none; }
+/* etc-wbody disappears as a box; its children join the widget's flex. */
+.etc-widget.etc-min .etc-wbody { display: contents; }
+/* Only status dot + counter (colours come from the theme). */
+.etc-widget.etc-min .etc-title,
+.etc-widget.etc-min .etc-stext,
+.etc-widget.etc-min .etc-hint  { display: none; }
+.etc-widget.etc-min .etc-status { order: -1; }
+/* Compact counter. */
+.etc-widget.etc-min .etc-display {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.etc-widget .etc-title {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.etc-widget .etc-display {
+    /* The counter is the hero: large and with tabular figures.
+       28px: "05:00:00" fits whole within the widget's 168px. */
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 8px 0 6px;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+}
+
+.etc-widget .etc-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Status glyph: ● connected / ❚❚ paused (SPEC_RELOJ §5). */
+.etc-widget .etc-sdot::before {
+    content: "\25CF";
+}
+
+.etc-widget.etc-off .etc-sdot::before {
+    content: "\275A\275A";
+    letter-spacing: 1px;
+}
+
+/* While paused, the digits dim to 55%. */
+.etc-widget.etc-off .etc-display {
+    opacity: 0.55;
+}
+
+.etc-widget .etc-status.etc-active {
+    color: var(--etc-ok);
+}
+
+.etc-widget .etc-status.etc-paused {
+    color: var(--etc-warn);
+}
+
+.etc-widget .etc-hint {
+    display: none;   /* The synchronisation text now lives in the tooltip. */
+}
+
+/* ── Themes (SPEC_RELOJ §3) — closed catalogue; each theme has its own colours
+   (they do not depend on the dark-mode variables: already AA in both modes). ── */
+
+/* 2 · Pizarra: black, rectangular, sans serif, 38% white border. */
+.etc-widget.etc-t-pizarra {
+    background: #0b0b0d;
+    color: #fff;
+    border-radius: 0;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+    --etc-ok: #4ade80;
+}
+
+/* ---------------------------------------------------------------------
+   Consent notice (top banner, only once per user).
+   Like recording a video call: it informs before continuing.
+   --------------------------------------------------------------------- */
+
+.etc-consent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050;                 /* Above the clock. */
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 12px 20px;
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+    background: var(--etc-bg);
+    color: var(--etc-fg);
+    border-bottom: 1px solid var(--etc-border);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.etc-consent .etc-consent-text {
+    max-width: 760px;
+}
+
+.etc-consent .etc-consent-ok {
+    flex: 0 0 auto;
+    padding: 8px 18px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--etc-ok);
+    color: var(--etc-ok-text);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    min-height: 40px;              /* Comfortable touch target on mobile. */
+}
+
+.etc-consent .etc-consent-ok:hover,
+.etc-consent .etc-consent-ok:focus {
+    background: var(--etc-ok-hover);
+    outline: 2px solid var(--etc-fg);  /* Visible focus for keyboard. */
+    outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+    .etc-consent {
+        font-size: 13px;
+        padding: 10px 14px;
+        padding-top: calc(10px + env(safe-area-inset-top, 0px));
+    }
+    .etc-consent .etc-consent-ok {
+        width: 100%;               /* Full-width button: easy to tap. */
+    }
+}
+
+/* ══ 4 · PRO showcase (report and configuration; never in the widget) ══ */
+
+/* PRO card: grey at rest, it lights up on mouse hover and the whole block
+   is a link to elearningfacil.com (showcase technique). */
+.etc-pro-link,
+.etc-pro-link:hover,
+.etc-pro-link:focus {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.etc-pro-card {
+    border: 1px solid #d5dbe1;
+    border-radius: 10px;
+    background: #f8f9fb;
+    filter: grayscale(0.35);
+    opacity: 0.78;
+    height: 100%;
+    transition: opacity .15s, box-shadow .15s, border-color .15s,
+        filter .15s, transform .15s;
+}
+
+.etc-pro-link:hover .etc-pro-card,
+.etc-pro-link:focus-visible .etc-pro-card {
+    opacity: 1;
+    filter: none;
+    border-color: #009b9b;
+    box-shadow: 0 8px 22px rgba(0, 155, 155, 0.28);
+    transform: translateY(-2px);
+}
+
+/* Disabled controls must not swallow the link's click. */
+.etc-pro-card input[disabled] { pointer-events: none; }
+
+.etc-pro-tag {
+    display: inline-block;
+    background: #f39200;
+    color: #0f2b46;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 2px 9px;
+    vertical-align: middle;
+}
+
+/* Fake form control: shows the PRO setting without implementing it. */
+.etc-fakectl {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background: #fff;
+    padding: 6px 10px;
+    font-size: 13px;
+    color: #495057;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.etc-fakectl::after { content: "▾"; color: #adb5bd; }
+
+/* Report export buttons (they should stand out over the table). */
+.etc-btn,
+.etc-btn:hover,
+.etc-btn:focus {
+    background: #006868;
+    color: #fff;
+    font-weight: 600;
+    border: 0;
+    border-radius: 8px;
+}
+
+.etc-btn:hover,
+.etc-btn:focus { background: #004f4f; }
+
+.etc-btn-pro,
+.etc-btn-pro:hover,
+.etc-btn-pro:focus {
+    background: #eef1f4;
+    color: #495057;
+    font-weight: 600;
+    border: 1px solid #d5dbe1;
+    border-radius: 8px;
+    transition: box-shadow .15s, border-color .15s, color .15s;
+}
+
+.etc-btn-pro:hover,
+.etc-btn-pro:focus {
+    border-color: #009b9b;
+    color: #0f2b46;
+    box-shadow: 0 6px 18px rgba(0, 155, 155, 0.25);
+}
+
+/* Report table with the house-style header. */
+.etc-card {
+    border: 1px solid #e3e6ea;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.etc-card .generaltable { margin-bottom: 0; }
+
+.etc-card .generaltable thead th {
+    background: #0f2b46;
+    color: #fff;
+    border: 0;
+}
+
+/* Theme thumbnails: sample colours only (the real CSS belongs to the suite). */
+.etc-thumb {
+    width: 118px;
+    height: 52px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0 auto 8px;
+}
+
+.etc-prev-zafiro { background: #0f2b46; color: #34d399; }
+
+.etc-prev-pizarra {
+    background: #0b0b0d;
+    color: #4ade80;
+    border-radius: 0;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+}
+
+.etc-prev-circulo {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #0f4c5c;
+    color: #fff;
+    font-size: 10px;
+}
+
+.etc-prev-claro {
+    background: #fff;
+    color: #1e7e34;
+    border: 1px solid #d5dbe1;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.etc-prev-bosque { background: #123f37; color: #9be8ff; }
+
+.etc-prev-atardecer { background: #14283c; color: #ffb454; }
+
+.etc-prev-pildora {
+    background: #0f2b46;
+    color: #fff;
+    border-radius: 999px;
+    height: 36px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.etc-prev-minimo {
+    background: #eef1f4;
+    color: #1d2125;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.etc-prev-electrico {
+    background: linear-gradient(135deg, #1100ff, #5a0ecc);
+    color: #fff;
+}
+
+.etc-theme-card {
+    border: 1px solid #d5dbe1;
+    border-radius: 10px;
+    width: 150px;
+}
+
+/* Funnel banner: professional, house-style, with a single CTA. */
+.etc-banner {
+    background: linear-gradient(135deg, #0f2b46 0%, #006868 62%, #009b9b 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 26px 30px;
+    margin-top: 2rem;
+}
+
+.etc-banner-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 12px;
+}
+
+.etc-banner ul {
+    list-style: none;
+    margin: 0 0 18px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px 28px;
+}
+
+@media (min-width: 768px) {
+    .etc-banner ul { grid-template-columns: 1fr 1fr; }
+}
+
+.etc-banner li {
+    position: relative;
+    padding-left: 24px;
+}
+
+.etc-banner li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #f39200;
+    font-weight: 700;
+}
+
+.etc-banner-cta,
+.etc-banner-cta:hover,
+.etc-banner-cta:focus {
+    display: inline-block;
+    background: #f39200;
+    color: #0f2b46;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 10px 24px;
+    text-decoration: none;
+    transition: background .15s, transform .15s;
+}
+
+.etc-banner-cta:hover,
+.etc-banner-cta:focus {
+    background: #d97f00;
+    transform: translateY(-1px);
+}
