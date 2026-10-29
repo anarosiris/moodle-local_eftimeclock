@@ -123,10 +123,10 @@
   <div class="cover-inner">
     <a href="https://elearningfacil.com"><img class="logo" src="logo_horizontal.png" alt="eLearning Fácil"></a>
     <div class="eyebrow">Free plugin for Moodle™</div>
-    <h1>Active Time Clock</h1>
+    <h1>Time Clock</h1>
     <div class="sub">Moodle™ logs clicks. <u>This measures time.</u></div>
     <div class="tag">Plugin guide · local_eftimeclock</div>
-    <div class="ver">Version 0.3.1 · Works with Moodle™ 5.1, 5.2 and 5.3</div>
+    <div class="ver">Version 0.4.0 · Works with Moodle™ 5.1, 5.2 and 5.3</div>
     <div class="by">
       <img src="active-time-clock_512.png" alt="">
       <div><div class="k">Developed and maintained by eLearning Fácil</div>
@@ -151,7 +151,7 @@
     <div class="grp">Reference</div>
     <a class="row" href="#s7"><span class="tt">7. Permissions and data</span></a>
     <a class="row" href="#s8"><span class="tt">8. What it doesn’t do</span></a>
-    <a class="row" href="#s9"><span class="tt">9. Moving to the complete suite without losing data</span></a>
+    <a class="row" href="#s9"><span class="tt">9. Moving to the Training Evidence Pack without losing data</span></a>
     <a class="row" href="#s10"><span class="tt">10. Frequently asked questions</span></a>
     <a class="row" href="#s11"><span class="tt">More plugins by eLearning Fácil</span></a>
   </div>
@@ -164,7 +164,7 @@
 
   <h2 id="s1"><span class="num">1</span>What it is and what it is for</h2>
   <p class="lead">Moodle™ logs every click, but it doesn’t know how long the student actually spends on an
-  activity. <b>Active Time Clock</b> measures it: it counts each student’s active time on the course activities
+  activity. <b>Time Clock</b> measures it: it counts each student’s active time on the course activities
   and shows it to them in a floating clock.</p>
   <ul class="tick">
     <li><b>Only real time counts</b>: while the activity tab is visible and focused. A background tab or switching
@@ -184,7 +184,7 @@
     <li><b>Site administration → Plugins → Install plugins</b>: upload the ZIP and confirm.</li>
     <li>Check in <b>Site administration → Reports → System status</b> that the plugin file integrity line is OK.</li>
     <li>Done: by default <b>every course measures time</b> and shows the clock. Site defaults are in
-      <b>Site administration → Plugins → Local plugins → Active Time Clock</b>, and each course can change them.</li>
+      <b>Site administration → Plugins → Local plugins → Time Clock</b>, and each course can change them.</li>
   </ol>
   <p>Requirements: Moodle™ 5.1, 5.2 or 5.3 · PHP 8.2 or later · MySQL/MariaDB or PostgreSQL.</p>
 </section>
@@ -220,7 +220,7 @@
 <section class="part">
   <h2 id="s4"><span class="num">4</span>The clock the student sees</h2>
   <p>On every course activity, the student sees a floating clock at the bottom right with their accumulated
-  <b>connection time</b> in the course and its status: <b>connected</b> while it counts and <b>paused</b> when the tab
+  <b>active time</b> in the course and its status: <b>connected</b> while it counts and <b>paused</b> when the tab
   is no longer active.</p>
   <img class="shot" src="en_01_clock_sapphire.png" alt="A course activity with the floating clock at the bottom right">
   <div class="shotcap">An activity with the clock in place: discreet, without covering the content.</div>
@@ -243,11 +243,11 @@
 <!-- 5 -->
 <section class="part">
   <h2 id="s5"><span class="num">5</span>The course report</h2>
-  <p>In the course: <b>More → Active Time Clock report</b> (teachers and managers). One row per student with the
+  <p>In the course: <b>More → Time Clock report</b> (teachers and managers). One row per student with the
   <b>first measured access</b>, the <b>last measured access</b> and the <b>total time</b>.</p>
-  <img class="shot" src="en_04_report.png" alt="Active Time Clock report with downloads and the student table">
+  <img class="shot" src="en_04_report.png" alt="Time Clock report with downloads and the student table">
   <div class="shotcap"><b>Excel</b> and <b>CSV</b> downloads at the top. Items marked <b>PRO</b> (audit-ready PDF,
-  filters, percentage of the course hours and per-activity detail) come with the complete suite.</div>
+  filters, percentage of the course hours and per-activity detail) come with the Training Evidence Pack.</div>
   <ul class="tick">
     <li>With <b>separate groups</b>, each teacher sees only the students in their own groups.</li>
     <li>The downloads contain the same data as the table, ready to open in a spreadsheet.</li>
@@ -259,10 +259,10 @@
 <section class="part">
   <h2 id="s6"><span class="num">6</span>Course and site settings</h2>
   <h3>In each course</h3>
-  <p>In the course: <b>More → Active Time Clock settings</b>.</p>
-  <img class="shot" style="max-width:112mm" src="en_05_settings.png" alt="Active Time Clock settings in the course with the theme gallery">
+  <p>In the course: <b>More → Time Clock settings</b>.</p>
+  <img class="shot" style="max-width:112mm" src="en_05_settings.png" alt="Time Clock settings in the course with the theme gallery">
   <div class="shotcap">At the top, “Use the site values” and the measuring switch; below, the theme gallery:
-  <b>Sapphire</b> and <b>Slate</b> are chosen here, the rest come with the complete suite.</div>
+  <b>Sapphire</b> and <b>Slate</b> are chosen here, the rest come with the Training Evidence Pack.</div>
   <table>
     <tr><th>Setting</th><th>What it does</th></tr>
     <tr><td><b>Use the site values</b></td><td>The course always follows the site (measure or not, and theme). Untick it to decide in this course.</td></tr>
@@ -270,7 +270,7 @@
     <tr><td><b>Clock theme</b></td><td>Sapphire or Slate.</td></tr>
   </table>
   <h3>For the whole site</h3>
-  <p>In <b>Site administration → Plugins → Local plugins → Active Time Clock</b>:</p>
+  <p>In <b>Site administration → Plugins → Local plugins → Time Clock</b>:</p>
   <table>
     <tr><th>Setting</th><th>Default</th><th>What it does</th></tr>
     <tr><td><b>Measure time by default</b></td><td>Yes</td><td>Whether courses measure time and show the clock. Each course can change it.</td></tr>
@@ -311,18 +311,18 @@
     <li>It doesn’t produce <b>PDF reports</b> or filter by dates, groups or activities.</li>
     <li>It has no <b>inactivity control</b> and no time-based activity completion.</li>
   </ul>
-  <p>All of that is in the <b>complete suite</b> (section 9). Free software (GPL v3), built to the Moodle™ plugin
+  <p>All of that is in the <b>Training Evidence Pack</b> (section 9). Free software (GPL v3), built to the Moodle™ plugin
   guidelines: no external calls or third-party resources, automated tests and code review on every release.</p>
 
 <!-- 9-10 -->
-  <h2 id="s9"><span class="num">9</span>Moving to the complete suite without losing data</h2>
-  <p>The clock tells you how much time your students spend. eLearning Fácil’s <b>complete suite</b> lets you
+  <h2 id="s9"><span class="num">9</span>Moving to the Training Evidence Pack without losing data</h2>
+  <p>The clock tells you how much time your students spend. eLearning Fácil’s <b>Training Evidence Pack</b> lets you
   <b>prove it in an audit</b>: percentage of the reported hours, per-activity detail, background time (videos,
   external resources and video conferences), time-based completion, the student progress block, designed PDF
   reports and an evidence file for every course.</p>
   <div class="box ok"><div class="h">Starting free never costs you data</div>
-    When the complete suite is installed on a site that uses this clock, it <b>imports all the time already
-    measured</b> and Active Time Clock <b>steps aside automatically</b>: it stops showing the clock and recording,
+    When the Training Evidence Pack (local_efreport) is installed on a site that uses this clock, it <b>imports all the time already
+    measured</b> and Time Clock <b>steps aside automatically</b>: it stops showing the clock and recording,
     and its pages say so. That way there is a single clock and a single measurement.</div>
   <p>More information at <a href="https://elearningfacil.com"><b>elearningfacil.com</b></a>.</p>
 
@@ -334,12 +334,12 @@
   <p>That is expected: anyone who can view the report, and site administrators, are not measured. To see what a
   student sees, log in with a test student account.</p>
   <h3>Why doesn’t the clock appear on the course main page?</h3>
-  <p>The free version measures activities only. Measuring the main page is part of the complete suite.</p>
-  <h3>I have the complete suite installed and the free clock doesn’t appear</h3>
+  <p>The free version measures activities only. Measuring the main page is part of the Training Evidence Pack.</p>
+  <h3>I have the Training Evidence Pack installed and the free clock doesn’t appear</h3>
   <p>That is expected: with the suite present, this plugin steps aside so there is a single measurement.</p>
   <h3>Is the data good enough for an audit?</h3>
   <p>The record is honest and never duplicates, but an audit usually asks for more: percentage of the reported
-  hours, per-activity evidence, communications with the tutor… That is the complete suite.</p>
+  hours, per-activity evidence, communications with the tutor… That is the Training Evidence Pack.</p>
   <h3>Time on a video in another tab doesn’t add up</h3>
   <p>On purpose: if the activity tab is not active, it doesn’t count. A video inside the activity itself, with the
   tab in front, does count.</p>
@@ -353,7 +353,7 @@
     <a href="https://elearningfacil.com"><img src="class-manager_512.png" alt=""><div><b>Class Manager</b><span>Sell courses by the seat: your client signs up their people, with capped seats, an access period and an automatic welcome email.</span></div></a>
     <a href="https://elearningfacil.com"><img src="bulk-certificate_512.png" alt=""><div><b>Bulk Certificate Manager</b><span>Filter, issue and download a whole group’s certificates in one zip, with Custom certificate or Workplace certificates.</span></div></a>
     <a href="https://elearningfacil.com"><img src="direct-scorm-player_512.png" alt=""><div><b>Direct SCORM player</b><span>Free: one click and the student is right inside the SCORM, full screen and with no new windows.</span></div></a>
-    <a href="https://elearningfacil.com"><img src="pack_512.png" alt=""><div><b>The complete suite</b><span>Time you can prove, PDF reports, completion by time spent and an evidence file for every group.</span></div></a>
+    <a href="https://elearningfacil.com"><img src="pack_512.png" alt=""><div><b>the Training Evidence Pack</b><span>Time you can prove, PDF reports, completion by time spent and an evidence file for every group.</span></div></a>
   </div>
   <div class="cta"><b style="font-family:'Poppins';font-size:13pt;">Want to know more?</b><br>
     Drop us a line and we’ll tell you which one fits your Moodle™.<br>
@@ -361,7 +361,7 @@
     <p class="small" style="margin-top:3mm;">info@elearningfacil.com · WhatsApp +34 647 002 997</p></div>
 
   <hr class="s">
-  <p class="small">Guide for the <code>local_eftimeclock</code> plugin · version 0.3.1 · © 2026 eLearning Fácil · <a href="https://elearningfacil.com">elearningfacil.com</a></p>
+  <p class="small">Guide for the <code>local_eftimeclock</code> plugin · version 0.4.0 · © 2026 eLearning Fácil · <a href="https://elearningfacil.com">elearningfacil.com</a></p>
   <hr class="s">
   <p class="small">Moodle™ is a registered trademark of Moodle Pty Ltd. SCORM® is a registered trademark of Advanced Distributed Learning (ADL). eLearning Fácil is not affiliated with, associated with or endorsed by either; the names are used only to describe compatibility.</p>
 </section>

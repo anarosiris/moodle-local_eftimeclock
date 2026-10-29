@@ -1,6 +1,14 @@
-# Changelog — Active Time Clock (local_eftimeclock)
+# Changelog — Training Evidence: Time Clock (free) (local_eftimeclock)
 
 All notable changes to this plugin are listed here.
+
+## [0.4.0] - 2026-10-30
+
+### Changed
+- Family names: English "Training Evidence: Time Clock (free)" with course menu entries "Time Clock settings" and "Time Clock report" (was "Active Time Clock"); Spanish "Seguimiento de la Formación: Medidor de tiempo (gratuito)". Every mention of the full suite now names the "Training Evidence Pack"; the clock and banner say "active time". Native-English review of the whole language file (39 strings). No change in behaviour, settings or capabilities.
+
+### Documentation
+- English and Spanish guides and README updated to the new names.
 
 ## [0.3.1] - 2026-10-13
 

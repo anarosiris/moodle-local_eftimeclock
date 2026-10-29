@@ -1,4 +1,4 @@
-# Active Time Clock (local_eftimeclock)
+# Training Evidence: Time Clock (free) (`local_eftimeclock`)
 
 Free plugin for Moodle 5.1+ by eLearning Fácil. It measures each student's **active time** on course activities and
 shows it to them in a floating clock:
@@ -22,7 +22,7 @@ shows it to them in a floating clock:
 Users who can view the report (teachers, managers) and site administrators are **not measured**: they see no clock and
 nothing is recorded for them, even when they are also enrolled as students.
 
-Current version: **0.3.1** — see [CHANGES.md](CHANGES.md).
+Current version: **0.4.0** — see [CHANGES.md](CHANGES.md).
 
 ## Documentation
 
@@ -34,14 +34,14 @@ Current version: **0.3.1** — see [CHANGES.md](CHANGES.md).
 1. **Back up your site first** (database, moodledata and code) — good practice with any plugin.
 2. Site administration → Plugins → Install plugins → upload the ZIP and confirm.
 3. By default every course measures time and shows the clock. Site defaults: Site administration → Plugins →
-   Local plugins → Active Time Clock.
+   Local plugins → Time Clock.
 
 Requirements: Moodle 5.1, 5.2 or 5.3 · PHP 8.2+ · MySQL/MariaDB or PostgreSQL.
 
 ## Usage
 
-- Course → **More → Active Time Clock settings**: turn measuring on or off, change the theme or follow the site values.
-- Course → **More → Active Time Clock report**: view and download the measured time.
+- Course → **More → Time Clock settings**: turn measuring on or off, change the theme or follow the site values.
+- Course → **More → Time Clock report**: view and download the measured time.
 
 ## Permissions
 
@@ -51,10 +51,10 @@ Requirements: Moodle 5.1, 5.2 or 5.3 · PHP 8.2+ · MySQL/MariaDB or PostgreSQL.
 | `local/eftimeclock:manage` | Editing teacher, manager | Configure the clock in the course. |
 | `local/eftimeclock:recordtime` | Student | Whose time is measured. |
 
-## Upgrading to the complete suite
+## Upgrading to the Training Evidence Pack
 
 eLearning Fácil also offers a complete commercial suite (`local_efreport`) with advanced time tracking and reporting.
-If it is installed on the same site, Active Time Clock steps aside automatically (it neither shows the clock nor
+If it is installed on the same site, Time Clock steps aside automatically (it neither shows the clock nor
 records anything, and its pages say so) and the suite imports all the time already measured, so nothing is lost.
 
 ## Support

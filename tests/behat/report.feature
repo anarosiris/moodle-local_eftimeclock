@@ -19,7 +19,7 @@ Feature: The time clock report shows measured time to teachers
 
   Scenario: The teacher sees the report columns, the free exports and the PRO strip
     Given I am on the "Course 1" course page logged in as teacher1
-    When I navigate to "Active Time Clock report" in current page administration
+    When I navigate to "Time Clock report" in current page administration
     Then I should see "Student"
     And I should see "First measured access"
     And I should see "Last measured access"
@@ -28,10 +28,10 @@ Feature: The time clock report shows measured time to teachers
     And I should see "Download Excel"
     And I should see "Download CSV"
     And I should see "Audit-ready PDF"
-    And I should see "Filters, % of the course hours"
-    And I should see "The complete suite by eLearning Fácil lets you prove it."
-    And I should see "Discover the complete suite by eLearning Fácil"
+    And I should see "Filters, % of the declared course hours"
+    And I should see "The Training Evidence Pack lets you prove it."
+    And I should see "Discover the Training Evidence Pack"
 
   Scenario: A student does not see the report in the course navigation
     When I am on the "Course 1" course page logged in as student1
-    Then I should not see "Active Time Clock report"
+    Then I should not see "Time Clock report"
