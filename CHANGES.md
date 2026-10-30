@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are listed here.
 
+## [0.4.1] - 2026-10-30
+
+### Changed
+- Spanish strings and Spanish guide now say «estudiante» instead of «alumno», consistently with the rest of the interface. No code changes.
+
 ## [0.4.0] - 2026-10-30
 
 ### Changed
