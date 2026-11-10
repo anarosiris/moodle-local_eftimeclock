@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are listed here.
 
+## [0.4.2] - 2026-11-10
+
+### Documentation
+- Guides, last page: Class Manager reads «da de alta a sus estudiantes» / "signs up their students". No code changes.
+
 ## [0.4.1] - 2026-10-30
 
 ### Changed

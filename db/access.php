@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = [
     // View the time report (teaching staff, manager; grant it also to a
-    // read-only inspector/auditor role if you use one).
+    // read-only auditor role if you use one).
     'local/eftimeclock:viewreport' => [
         'riskbitmask'  => RISK_PERSONAL,
         'captype'      => 'read',
