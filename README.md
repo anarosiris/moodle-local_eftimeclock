@@ -57,11 +57,19 @@ eLearning Fácil also offers a complete commercial suite (`local_efreport`) with
 If it is installed on the same site, Time Clock steps aside automatically (it neither shows the clock nor
 records anything, and its pages say so) and the suite imports all the time already measured, so nothing is lost.
 
+## Privacy
+
+Everything stays in your Moodle™ site: the plugin sends no data to eLearning Fácil or to any third party and loads
+nothing from external servers. It stores, for each user, the active time measured in each course and activity
+(duration and dates of each session) and one user preference recording that the user has seen the notice about the
+clock. The plugin implements Moodle's Privacy API, so this data is included in a user's data export and removed by a
+data deletion request.
+
 ## Support
 
 Report bugs and ask questions in this repository's [issue tracker](https://github.com/anarosiris/moodle-local_eftimeclock/issues).
 
-Developed and maintained by [eLearning Fácil](https://elearningfacil.com), an independent company that builds plugins for Moodle™ for training providers and companies. Not affiliated with Moodle Pty Ltd.
+Developed and maintained by [eLearning Fácil](https://elearningfacil.com), an independent company that builds Moodle™ plugins and themes for training providers and companies. Not affiliated with Moodle Pty Ltd.
 
 ## Licence
 
