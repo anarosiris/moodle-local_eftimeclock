@@ -2,6 +2,18 @@
 
 All notable changes to this plugin are listed here.
 
+## [0.5.0] - 2026-11-25
+
+### Changed
+- The course settings page now shows only the settings the plugin has: the measuring switch and its two clock themes,
+  Sapphire and Slate. The grayed-out themes and settings of the commercial suite are gone.
+- The report shows the Excel and CSV downloads and the table. The grayed-out PDF button and filters, the banner under
+  the table and the links to the author's website have been removed. A single line of small text under the report
+  mentions the full report plugin, with a link to its page in the Moodle Marketplace.
+- Guides and screenshots updated accordingly.
+
+No change to how time is measured or stored, and no database changes.
+
 ## [0.4.2] - 2026-11-10
 
 ### Documentation

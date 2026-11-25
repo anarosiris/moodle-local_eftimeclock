@@ -25,6 +25,7 @@
 
 require(__DIR__ . '/../../config.php');
 
+use local_eftimeclock\local\edition;
 use local_eftimeclock\local\timeapi;
 
 $courseid = required_param('courseid', PARAM_INT);
@@ -97,7 +98,7 @@ $columns = [
     'total'   => get_string('col_totaltime', 'local_eftimeclock'),
 ];
 
-// Excel/CSV export with the core dataformat (free); the PDF is PRO.
+// Excel/CSV export with the core dataformat.
 if ($download === 'excel' || $download === 'csv') {
     $format = ($download === 'excel') ? 'excel' : 'csv';
     $filename = 'eftimeclock-' . clean_filename($course->shortname);
@@ -120,14 +121,15 @@ if (\local_eftimeclock\local\config::for_course($course->id)['superseded']) {
     echo $OUTPUT->notification(get_string('superseded_notice', 'local_eftimeclock'), 'info', false);
 }
 
-$prourl = 'https://elearningfacil.com';
-$protitle = get_string('pro_gofull', 'local_eftimeclock');
+// The website edition also presents the suite (greyed-out items and a closing banner).
+$isweb = edition::is_web();
+$prourl = edition::suite_url();
+$protitle = $isweb ? get_string('pro_gofull', 'local_eftimeclock', edition::suite_host()) : '';
 
 if (!$students) {
     echo html_writer::tag('p', get_string('nostudents', 'local_eftimeclock'));
 } else {
-    // Top bar: the exports in plain sight (Excel/CSV free) and the PDF as a
-    // PRO hook — it lights up on hover and links to the suite.
+    // Top bar: the exports in plain sight (Excel/CSV).
     $toolbar = html_writer::link(
         new moodle_url($url, ['download' => 'excel']),
         get_string('export_excel', 'local_eftimeclock'),
@@ -138,40 +140,45 @@ if (!$students) {
         get_string('export_csv', 'local_eftimeclock'),
         ['class' => 'btn etc-btn me-2 mb-2']
     );
-    $toolbar .= html_writer::link(
-        $prourl,
-        get_string('export_pdf_pro', 'local_eftimeclock')
-            . ' ' . html_writer::span(get_string('pro_badge', 'local_eftimeclock'), 'etc-pro-tag ms-1'),
-        ['class' => 'btn etc-btn-pro mb-2', 'target' => '_blank', 'rel' => 'noopener', 'title' => $protitle]
-    );
+    if ($isweb) {
+        // The PDF as a hook: it lights up on hover and links to the suite.
+        $toolbar .= html_writer::link(
+            $prourl,
+            get_string('export_pdf_pro', 'local_eftimeclock')
+                . ' ' . html_writer::span(get_string('pro_badge', 'local_eftimeclock'), 'etc-pro-tag ms-1'),
+            ['class' => 'btn etc-btn-pro mb-2', 'target' => '_blank', 'rel' => 'noopener', 'title' => $protitle]
+        );
+    }
     echo html_writer::div($toolbar, 'd-flex flex-wrap align-items-center mt-3');
 
-    // PRO filters (showcase): shown greyed out, they light up on mouse hover
-    // and the whole block links to the suite.
-    $fakectl = function (string $label): string {
-        return html_writer::div(
-            html_writer::div($label, 'small fw-bold mb-1')
-            . html_writer::div(get_string('choosedots'), 'etc-fakectl'),
-            'flex-fill'
-        );
-    };
-    $filters = $fakectl(get_string('pro_filter_from', 'local_eftimeclock'))
-        . $fakectl(get_string('pro_filter_to', 'local_eftimeclock'))
-        . $fakectl(get_string('group'))
-        . $fakectl(get_string('activity'));
-    echo html_writer::link(
-        $prourl,
-        html_writer::div(
+    if ($isweb) {
+        // Filters of the suite (showcase): shown greyed out, they light up on mouse
+        // hover and the whole block links to the suite.
+        $fakectl = function (string $label): string {
+            return html_writer::div(
+                html_writer::div($label, 'small fw-bold mb-1')
+                . html_writer::div(get_string('choosedots'), 'etc-fakectl'),
+                'flex-fill'
+            );
+        };
+        $filters = $fakectl(get_string('pro_filter_from', 'local_eftimeclock'))
+            . $fakectl(get_string('pro_filter_to', 'local_eftimeclock'))
+            . $fakectl(get_string('group'))
+            . $fakectl(get_string('activity'));
+        echo html_writer::link(
+            $prourl,
             html_writer::div(
-                html_writer::span(get_string('pro_filters_title', 'local_eftimeclock'), 'fw-bold')
-                . ' ' . html_writer::span(get_string('pro_badge', 'local_eftimeclock'), 'etc-pro-tag ms-2'),
-                'mb-2'
-            )
-            . html_writer::div($filters, 'd-flex flex-wrap gap-3'),
-            'etc-pro-card p-3 mb-3'
-        ),
-        ['class' => 'etc-pro-link', 'target' => '_blank', 'rel' => 'noopener', 'title' => $protitle]
-    );
+                html_writer::div(
+                    html_writer::span(get_string('pro_filters_title', 'local_eftimeclock'), 'fw-bold')
+                    . ' ' . html_writer::span(get_string('pro_badge', 'local_eftimeclock'), 'etc-pro-tag ms-2'),
+                    'mb-2'
+                )
+                . html_writer::div($filters, 'd-flex flex-wrap gap-3'),
+                'etc-pro-card p-3 mb-3'
+            ),
+            ['class' => 'etc-pro-link', 'target' => '_blank', 'rel' => 'noopener', 'title' => $protitle]
+        );
+    }
 
     $table = new html_table();
     $table->head = array_values($columns);
@@ -182,21 +189,35 @@ if (!$students) {
     echo html_writer::div(html_writer::table($table), 'etc-card');
 }
 
-// Funnel banner: the professional closing of the page (lead magnet).
-$bullets = '';
-foreach (['b1', 'b2', 'b3', 'b4'] as $b) {
-    $bullets .= html_writer::tag('li', get_string('pro_banner_' . $b, 'local_eftimeclock'));
+if ($isweb) {
+    // Closing banner that presents the suite.
+    $bullets = '';
+    foreach (['b1', 'b2', 'b3', 'b4'] as $b) {
+        $bullets .= html_writer::tag('li', get_string('pro_banner_' . $b, 'local_eftimeclock'));
+    }
+    echo html_writer::div(
+        html_writer::div(get_string('pro_banner_title', 'local_eftimeclock'), 'etc-banner-title')
+        . html_writer::tag('ul', $bullets)
+        . html_writer::link(
+            $prourl,
+            get_string('pro_banner_cta', 'local_eftimeclock') . ' →',
+            ['class' => 'etc-banner-cta', 'target' => '_blank', 'rel' => 'noopener']
+        )
+        . html_writer::span(s(edition::suite_host()), 'ms-3 small'),
+        'etc-banner'
+    );
+} else {
+    // Marketplace edition: one plain line that names the full report plugin.
+    $fullreport = html_writer::link(
+        edition::MARKETPLACE_URL,
+        s(get_string('marketplace_more_name', 'local_eftimeclock')),
+        ['target' => '_blank', 'rel' => 'noopener']
+    );
+    echo html_writer::tag(
+        'p',
+        get_string('marketplace_more', 'local_eftimeclock', $fullreport),
+        ['class' => 'small text-muted mt-3', 'id' => 'etc-marketplace-more']
+    );
 }
-echo html_writer::div(
-    html_writer::div(get_string('pro_banner_title', 'local_eftimeclock'), 'etc-banner-title')
-    . html_writer::tag('ul', $bullets)
-    . html_writer::link(
-        $prourl,
-        get_string('pro_banner_cta', 'local_eftimeclock') . ' →',
-        ['class' => 'etc-banner-cta', 'target' => '_blank', 'rel' => 'noopener']
-    )
-    . html_writer::span('elearningfacil.com', 'ms-3 small'),
-    'etc-banner'
-);
 
 echo $OUTPUT->footer();

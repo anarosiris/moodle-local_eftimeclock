@@ -1,8 +1,8 @@
 @local @local_eftimeclock
-Feature: Per-course clock settings with the freemium theme gallery
+Feature: Per-course clock settings with the theme gallery
   In order to control the clock of my course
   As a teacher
-  I need the on/off switch and the theme gallery with the PRO themes greyed out
+  I need the on/off switch and the theme gallery
 
   Background:
     Given the following "courses" exist:
@@ -15,18 +15,21 @@ Feature: Per-course clock settings with the freemium theme gallery
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
 
-  Scenario: The gallery offers the two free themes and shows the PRO ones disabled
+  Scenario: The gallery offers the two themes and nothing that is not part of the plugin
     Given I am on the "Course 1" course page logged in as teacher1
     When I navigate to "Time Clock settings" in current page administration
     Then I should see "Measure time and show the clock"
     And I should see "Sapphire"
     And I should see "Slate"
-    And the "Circle" "radio" should be disabled
-    And the "Electric" "radio" should be disabled
-    And I should see "The other 7 themes come with the Training Evidence Pack by eLearning Fácil."
-    And I should see "With the Training Evidence Pack you can also configure"
-    And I should see "Time-based completion"
-    And I should see "Measure without showing the clock"
+    And "Circle" "radio" should not exist
+    And "Electric" "radio" should not exist
+    And I should not see "PRO" in the "region-main" "region"
+    And I should not see "The other 7 themes come with"
+    And I should not see "you can also configure"
+    And I should not see "Time-based completion"
+    And ".etc-pro-tag" "css_element" should not exist
+    And ".etc-pro-card" "css_element" should not exist
+    And "a[href*='elearningfacil.com']" "css_element" should not exist in the "region-main" "region"
 
   Scenario: Saving the settings persists and confirms
     Given I am on the "Course 1" course page logged in as teacher1

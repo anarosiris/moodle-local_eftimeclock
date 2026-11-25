@@ -259,10 +259,10 @@ body.darkmode .etc-consent {
     }
 }
 
-/* ══ 4 · PRO showcase (report and configuration; never in the widget) ══ */
+/* ══ 4 · Suite showcase (website edition: report and configuration; never in the widget) ══ */
 
 /* PRO card: grey at rest, it lights up on mouse hover and the whole block
-   is a link to elearningfacil.com (showcase technique). */
+   is a link to the suite (showcase technique). */
 .etc-pro-link,
 .etc-pro-link:hover,
 .etc-pro-link:focus {

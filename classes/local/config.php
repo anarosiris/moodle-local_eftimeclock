@@ -27,8 +27,7 @@ namespace local_eftimeclock\local;
 
 /**
  * Effective configuration of the free clock: ON/OFF and theme, per course,
- * with site-wide defaults. The full theme catalogue of the suite is shown in
- * the gallery, but the free plugin only stores the two free themes.
+ * with site-wide defaults. The free plugin only stores the two free themes.
  *
  * With the PRO suite (local_efreport) installed the free clock steps aside
  * on the whole site: it neither shows nor records, and it says so to whoever
@@ -58,8 +57,8 @@ class config {
     }
 
     /**
-     * Full catalogue of the suite (those not in free_themes() are shown
-     * greyed out with the PRO label in the gallery).
+     * Full catalogue of the suite (the website edition shows those not in
+     * free_themes() greyed out in the gallery).
      *
      * @return string[]
      */

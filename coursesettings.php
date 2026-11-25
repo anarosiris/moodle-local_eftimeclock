@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Per-course clock settings: on/off and theme gallery (free + PRO showcase).
+ * Per-course clock settings: on/off and theme gallery.
  *
  * @package    local_eftimeclock
  * @copyright  2026 Ana Rosiris Castro Mendez, eLearning Fácil (https://elearningfacil.com)
@@ -26,6 +26,7 @@
 require(__DIR__ . '/../../config.php');
 
 use local_eftimeclock\local\config;
+use local_eftimeclock\local\edition;
 
 $courseid = required_param('courseid', PARAM_INT);
 
@@ -97,15 +98,17 @@ echo html_writer::tag(
 echo html_writer::tag('div', get_string('cfg_enabled_desc', 'local_eftimeclock'), ['class' => 'text-muted small']);
 echo html_writer::end_div();
 
-// Theme gallery: the 2 free ones selectable with their thumbnail; the rest of
-// the suite greyed out — it lights up on mouse hover and links to the suite.
-$prourl = 'https://elearningfacil.com';
-$protitle = get_string('pro_gofull', 'local_eftimeclock');
+// Theme gallery: the themes of the plugin, selectable with their thumbnail.
+// The website edition also shows the rest of the suite's themes greyed out —
+// they light up on mouse hover and link to the suite.
+$isweb = edition::is_web();
+$prourl = edition::suite_url();
+$protitle = $isweb ? get_string('pro_gofull', 'local_eftimeclock', edition::suite_host()) : '';
 
 echo $OUTPUT->heading(get_string('cfg_theme', 'local_eftimeclock'), 4);
 echo html_writer::start_div('d-flex flex-wrap gap-3 my-2');
 $free = config::free_themes();
-foreach (config::all_themes() as $theme) {
+foreach ($isweb ? config::all_themes() : $free as $theme) {
     $isfree = in_array($theme, $free, true);
     $label = get_string('theme_' . $theme, 'local_eftimeclock');
     $id = 'etc-theme-' . $theme;
@@ -132,28 +135,32 @@ foreach (config::all_themes() as $theme) {
     }
 }
 echo html_writer::end_div();
-echo html_writer::tag('p', get_string('pro_hint_more_themes', 'local_eftimeclock'), ['class' => 'text-muted small']);
+if ($isweb) {
+    echo html_writer::tag('p', get_string('pro_hint_more_themes', 'local_eftimeclock'), ['class' => 'text-muted small']);
+}
 
 echo html_writer::tag('button', get_string('savechanges'), ['type' => 'submit', 'class' => 'btn btn-primary mt-2']);
 echo html_writer::end_tag('form');
 
-// PRO settings showcase: what the free plugin does not configure is SHOWN
-// (greyed out, as fake controls), lights up on hover and links to elearningfacil.com.
-echo $OUTPUT->heading(get_string('pro_more_title', 'local_eftimeclock'), 4, 'mt-4');
-echo html_writer::start_div('d-flex flex-wrap gap-3 my-2');
-foreach (['mode', 'scope', 'bg', 'caps', 'bbb', 'appearance', 'completion', 'title'] as $item) {
-    $card = html_writer::div(
-        html_writer::span(get_string('pro_set_' . $item, 'local_eftimeclock'), 'small fw-bold')
-        . ' ' . html_writer::span(get_string('pro_badge', 'local_eftimeclock'), 'etc-pro-tag ms-1 float-end'),
-        'mb-2'
-    );
-    $card .= html_writer::div(get_string('pro_set_' . $item . '_v', 'local_eftimeclock'), 'etc-fakectl');
-    echo html_writer::link(
-        $prourl,
-        html_writer::div($card, 'etc-pro-card p-3', ['style' => 'width: 280px;']),
-        ['class' => 'etc-pro-link', 'target' => '_blank', 'rel' => 'noopener', 'title' => $protitle]
-    );
+if ($isweb) {
+    // Website edition only: what the free plugin does not configure is SHOWN
+    // (greyed out, as fake controls), lights up on hover and links to the suite.
+    echo $OUTPUT->heading(get_string('pro_more_title', 'local_eftimeclock'), 4, 'mt-4');
+    echo html_writer::start_div('d-flex flex-wrap gap-3 my-2');
+    foreach (['mode', 'scope', 'bg', 'caps', 'bbb', 'appearance', 'completion', 'title'] as $item) {
+        $card = html_writer::div(
+            html_writer::span(get_string('pro_set_' . $item, 'local_eftimeclock'), 'small fw-bold')
+            . ' ' . html_writer::span(get_string('pro_badge', 'local_eftimeclock'), 'etc-pro-tag ms-1 float-end'),
+            'mb-2'
+        );
+        $card .= html_writer::div(get_string('pro_set_' . $item . '_v', 'local_eftimeclock'), 'etc-fakectl');
+        echo html_writer::link(
+            $prourl,
+            html_writer::div($card, 'etc-pro-card p-3', ['style' => 'width: 280px;']),
+            ['class' => 'etc-pro-link', 'target' => '_blank', 'rel' => 'noopener', 'title' => $protitle]
+        );
+    }
+    echo html_writer::end_div();
 }
-echo html_writer::end_div();
 
 echo $OUTPUT->footer();

@@ -36,8 +36,7 @@ if ($hassiteconfig) {
         1
     ));
 
-    // Only the free themes; the rest of the gallery lives on the course
-    // configuration page, greyed out, as a showcase of the suite.
+    // The themes of the plugin.
     $settings->add(new admin_setting_configselect(
         'local_eftimeclock/clocktheme',
         get_string('setting_clocktheme', 'local_eftimeclock'),
