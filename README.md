@@ -22,7 +22,7 @@ shows it to them in a floating clock:
 Users who can view the report (teachers, managers) and site administrators are **not measured**: they see no clock and
 nothing is recorded for them, even when they are also enrolled as students.
 
-Current version: **0.5.0** — see [CHANGES.md](CHANGES.md).
+Current version: **0.5.1** — see [CHANGES.md](CHANGES.md).
 
 ## Documentation
 

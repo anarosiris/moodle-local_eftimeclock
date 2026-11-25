@@ -2,6 +2,12 @@
 
 All notable changes to this plugin are listed here.
 
+## [0.5.1] - 2026-11-25
+
+### Fixed
+- Coding style: file header spacing in the external function that records the notice acknowledgement. No functional
+  changes.
+
 ## [0.5.0] - 2026-11-25
 
 ### Changed

@@ -17,16 +17,15 @@
 /**
  * External function that stores the user acknowledgement of the tracking notice.
  *
+ * It only affects the preference of the authenticated user themselves.
+ *
  * @package    local_eftimeclock
  * @copyright  2026 Ana Rosiris Castro Mendez, eLearning Fácil (https://elearningfacil.com)
  * @author     Ana Rosiris Castro Mendez <info@elearningfacil.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-// External function: stores that the user has seen and accepted the notice.
-// It only affects the preference of the authenticated user themselves.
 
 namespace local_eftimeclock\external;
-
 
 use core_external\external_api;
 use core_external\external_function_parameters;

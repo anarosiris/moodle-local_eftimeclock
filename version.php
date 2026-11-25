@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_eftimeclock';
-$plugin->version   = 2026112500;
-$plugin->release   = '0.5.0';
+$plugin->version   = 2026112501;
+$plugin->release   = '0.5.1';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->requires  = 2025100600;   // Moodle 5.1.0 (branch 501), consistent with $plugin->supported.
 $plugin->supported = [501, 503];   // Officially supported range: Moodle 5.1 to 5.3 (the core wants [lowest, highest]).
